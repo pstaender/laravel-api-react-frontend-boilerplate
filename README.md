@@ -1,9 +1,11 @@
 # Opinionated boilerplate for a laravel-powered-api with a react SPA frontend
 
+![status](https://github.com/pstaender/laravel-api-react-frontend-boilerplate/actions/workflows/specs.yml/badge.svg)
+
 ## Requirements
 
   * PHP 8.1+
-  * NodeJS 16+
+  * NodeJS 18+
 ## Tools, Libraries and Fra
 meworks
 
