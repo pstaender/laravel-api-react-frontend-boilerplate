@@ -43,9 +43,9 @@ jobs:
         run: cd api && php artisan key:generate && php artisan test
 
       - name: Use Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v3
-          with:
-            node-version: ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
         - run: yarn install
         - run: yarn build
         - run: yarn test
