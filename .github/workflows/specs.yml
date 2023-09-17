@@ -3,18 +3,31 @@ name: Specs
 on: [push]
 
 jobs:
-  specs:
-    name: Tests on PHP ${{ matrix.php }} and NodeJS ${{ matrix.node-version }}
+  nodejs:
+    name: Tests on NodeJS ${{ matrix.node-version }}
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+      steps:
+        - uses: actions/checkout@v3
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node-version }}
+        - run: yarn install
+        - run: yarn build
+        - run: yarn test
+  php:
+    name: Tests on PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         php: [8.1, 8.2]
-        node-version: [16.x, 20.x]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Setup PHP with composer
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
@@ -40,13 +53,5 @@ jobs:
         run: |
           cd api && php -r "copy('.env.example', '.env.testing');"
 
-      - name: Run PHP tests
+      - name: Run tests
         run: cd api && php artisan key:generate && php artisan test
-
-      - name: Use Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v3
-          with:
-            node-version: ${{ matrix.node-version }}
-        - run: yarn install
-        - run: yarn build
-        - run: yarn test

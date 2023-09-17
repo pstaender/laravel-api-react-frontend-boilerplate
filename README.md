@@ -3,7 +3,7 @@
 ## Requirements
 
   * PHP 8.1+
-  * NodeJS 16+
+  * NodeJS 18+
 ## Tools, Libraries and Fra
 meworks
 
