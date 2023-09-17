@@ -1,2 +1,11 @@
 en:
   React is running: React is running 🚀
+  The provided credentials are incorrect: The provided credentials are incorrect.
+  The password did not match: The password did not match.
+  Email already exists: Email already exists.
+  Please confirm e-mail first: Please confirm e-mail first.
+  Passwords do not match: Passwords do not match.
+  E-Mail has already been signed up: E-Mail has already been signed up. Please sign in or use another E-Mail.
+  Could not login. Wrong Password?: Could not login. Wrong Password?
+  Could not login: Could not login
+  Signup created. Please confirm your e-mail before logging in: Signup created. Please confirm your e-mail before logging in.

@@ -41,7 +41,7 @@ Change for your app needs:
   * routes in `api/routes/web.php`
   * e-mail-templates `api/resources/views/emails`
   * change logo(s) `/logo.svg` and `/logo.webp`
-  * Replace `yourserver.local` in the project with your production domain
+  * Set your frontend domain url `FRONTEND_URL` in the laravel `.env`-files
 
 ## Development
 
@@ -69,6 +69,11 @@ To make requests from external domains to the api possible, the following CORS-s
 
   * `api/config/cors.php`: added `'sanctum/token'` to `paths`
   * `api/app/Http/Middleware/VerifyCsrfToken.php`: added `*` wildcard
+
+## Laravel Routes
+
+Please check the api `api/routes/api.php` and web routes `api/routes/web.php` (used for e-mail landing-pages) to keep only routes you really need.
+
 ## License
 
 MIT License
@@ -79,6 +84,6 @@ This repo is (just) a boilerplate for creating projects with a laravel-driven ap
 
 Please check carefully all security related settings (CORS, database, mail etc) before deploying on production.
 
-Please also ensure that you always run on the latest possible PHP (`composer update`) and NodeJS (`yarn update`) modules :) 
+Please also ensure that you always run on the latest possible PHP `composer update` and NodeJS `yarn update` modules :) 
 
 

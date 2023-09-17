@@ -2,11 +2,14 @@ import { useState } from 'react'
 import { currentUserState } from '../states/currentUserState'
 import { useRecoilState } from 'recoil'
 import * as api from '../../lib/api'
+import {t} from '../../lib/helper'
+import { useNavigate } from 'react-router-dom'
 
 export function Login() {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [, setUser] = useRecoilState(currentUserState)
+  const navigate = useNavigate();
 
   async function handleFormSubmit(ev) {
     ev.preventDefault()
@@ -17,15 +20,15 @@ export function Login() {
         api.setBearerAuthToken(token)
         const user = await api.user()
         setUser(user.email)
-        window.location.href = '/home'
+        navigate('/home')
       }
     } catch (e) {
       if (e.response && e.response.data && e.response.data.message) {
         if (e.response.status === 422) {
           alert(
             e.response.data.message
-              ? `Could not login: ${e.response.data.message}`
-              : 'Could not login. Wrong Password?'
+              ? t('Could not login') + ': ' + t(e.response.data.message)
+              : t('Could not login. Wrong Password?')
           )
         }
         console.debug(e.response.data.message)

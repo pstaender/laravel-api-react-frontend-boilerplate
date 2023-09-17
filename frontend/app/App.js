@@ -20,15 +20,29 @@ export function App() {
   const [user, setUser] = useRecoilState(currentUserState)
 
   useEffect(() => {
+    async function loginUser(token) {
+      api.setBearerAuthToken(token)
+      let user = await api.user()
+      setUser(user.email)
+      console.debug(`Logged in as ${user.email}`)
+    }
+
     async function fetchUser() {
       if (!user) {
-        let token = await api.getAuthToken()
-        if (token) {
-          api.setBearerAuthToken(token)
-          let user = await api.user()
-          setUser(user.email)
-          console.debug(`Logged in as ${user.email}`)
+        let token = new URLSearchParams(window.location.search).get('authToken')
+
+        // we have a authToken from a signup session
+        if (token && /laravel_sanctum/.test(token)) {
+          loginUser(token)
           return
+        }
+
+        token = await api.getAuthToken()
+
+        if (token) {
+          loginUser(token)
+          return
+        } else {
         }
         console.debug('User is not logged in')
       }
@@ -52,7 +66,7 @@ export function App() {
                 <div style={{ textAlign: 'center' }}>
                   <h1>{t('React is running')}</h1>
                   <p>
-                    <Link to="/signup">Signup here</Link> |{' '}
+                    <Link to="/signup">Signup</Link> •{' '}
                     <Link to="/login">Login</Link>
                   </p>
                 </div>
@@ -61,12 +75,15 @@ export function App() {
               )
             }
           />
-          <Route path="/signup" element={<Signup></Signup>} />
-          <Route path="/login" element={<Login></Login>} />
-          {user && (
+          {user ? (
             <>
               <Route path="/home" element={<Home></Home>} />
               <Route path="/logout" element={<Logout></Logout>} />
+            </>
+          ) : (
+            <>
+              <Route path="/signup" element={<Signup></Signup>} />
+              <Route path="/login" element={<Login></Login>} />
             </>
           )}
           <Route

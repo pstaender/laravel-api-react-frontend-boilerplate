@@ -1,9 +1,12 @@
 import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { currentUserState } from '../states/currentUserState'
+import { useNavigate } from 'react-router-dom'
+import * as api from '../../lib/api'
 
 export function Logout() {
   const [, setUser] = useRecoilState(currentUserState)
+  const navigate = useNavigate();
   useEffect(() => {
     async function logoutAndRedirectToRootUrl() {
       async function logoutAndClearSession() {
@@ -12,12 +15,12 @@ export function Logout() {
         } catch (e) {
           console.error(e)
         }
-        localStorage.removeItem('authToken')
+        localStorage.clear()
       }
 
       await logoutAndClearSession()
       setUser(null)
-      window.location.href = '/'
+      navigate('/')
     }
     logoutAndRedirectToRootUrl()
   })

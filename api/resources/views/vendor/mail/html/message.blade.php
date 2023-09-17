@@ -22,7 +22,7 @@
     @slot('footer')
         @component('mail::footer')
             © {{ date('Y') }}<br>
-            [your.app ](https://yourserver.local )
+            [{{env('APP_NAME')}}]({{env('FRONTEND_URL', 'https://yourserver.local')}})
         @endcomponent
     @endslot
 @endcomponent

@@ -37,19 +37,19 @@ Route::post('/sanctum/token', function (Request $request) {
 
     if (!$user) {
         throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
+            'email' => ['The provided credentials are incorrect'],
         ]);
     }
 
     if (!$user->email_verified_at) {
         throw ValidationException::withMessages([
-            'email' => ['Please confirm e-mail'],
+            'email' => ['Please confirm e-mail first'],
         ]);
     }
 
     if (!$user || !Hash::check($request->password, $user->password)) {
         throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
+            'email' => ['The provided credentials are incorrect'],
         ]);
     }
 
@@ -57,14 +57,33 @@ Route::post('/sanctum/token', function (Request $request) {
 });
 
 
-Route::get('/verify-email/{id}/{hash}', function ($id, $hash) {
+Route::get('/verify-email/{id}/{hash}', function ($id, $hash, Request $request) {
     $user = User::findOrFail($id);
     $email = $user->getEmailForVerification();
+
+    $createInitialSessionForLogin = true;
+
     if ($email && !$user->hasVerifiedEmail()) {
+
+        $userAgent = $request->device_name ?: ($request->userAgent() ?: 'unknown');
+
         $user->markEmailAsVerified();
         event(new Verified($user));
-        // done -> redirect
-        return redirect('/?email_confirmed=successful', 307);
+        if ($createInitialSessionForLogin) {
+            if ($user->signup_device !== $userAgent) {
+                return [
+                    'warning' => 'Signup device is different from current device. No auto sign in available. Please login manually',
+                    'user_signup_device' => $user->signup_device,
+                    'user_agent' => $userAgent,
+                ];
+            }
+            return redirect(
+                env('FRONTEND_URL', '') . '/?authToken=' . $user->createToken($userAgent)->plainTextToken,
+                307
+            );
+        } else {
+            return redirect('/?email_confirmed=successful', 307);
+        }
     }
     return redirect(env('REDIRECT_TO_IF_NOT_AUTHENTICATE', '/?from=invalid_email_confirm'), 307);
 })->middleware(['signed'])->name('verification.verify');

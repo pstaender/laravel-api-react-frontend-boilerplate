@@ -41,10 +41,10 @@ export async function csrfCookie() {
 }
 
 export async function signup({ email, password } = {}) {
-    return await axios.post('/api/v1/signup', {
+    return (await axios.post('/api/v1/signup', {
         email,
         password,
-    })
+    }))?.data
 }
 
 export async function emailIsAvailableForSignup(email) {

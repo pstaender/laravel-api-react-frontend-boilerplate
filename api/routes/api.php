@@ -36,19 +36,28 @@ Route::group(['prefix' => 'v1'], function () {
         ]);
         if (User::where(['email' => $request->input('email')])->first()) {
             return response()->json([
-                'error' => 'Email already existing',
+                'error' => 'Email already exists',
+                'statusCode' => 409
+            ], 409);
+        }
+        if ($request->input('password') === $request->input('email')) {
+            return response()->json([
+                'error' => 'Password must be different than email',
                 'statusCode' => 409
             ], 409);
         }
         $user = User::create([
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
-            'phone' => $request->input('phone'),
+            'signup_device' => $request->userAgent(),
         ]);
         $user->save();
         // https://laravel.com/docs/10.x/verification
         event(new \Illuminate\Auth\Events\Registered($user));
-        return new UserResource($user);
+        return [
+            'message' => 'Signup created. Please confirm your e-mail before logging in',
+            'user' => new UserResource($user)
+        ];
     });
 
     Route::get(
@@ -78,7 +87,7 @@ Route::group(['prefix' => 'v1'], function () {
             $user = $request->user();
             if (!\Illuminate\Support\Facades\Hash::check($request->input('password'), $user->password)) {
                 return response()->json([
-                    'error' => 'The password did not match.',
+                    'error' => 'The password did not match',
                     'statusCode' => 409
                 ], 409);
             }

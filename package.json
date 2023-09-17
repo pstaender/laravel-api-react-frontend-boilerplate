@@ -18,7 +18,7 @@
     "build": "rm -rf ./dist && npm run i18n && parcel build",
     "develop": "rm -rf ./.parcel-cache; (trap 'kill 0' SIGINT; parcel & (cd api && composer start))",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest frontend/",
-    "i18n": "for f in frontend/i18n/*.yml; do echo $f && node scripts/yaml2json.mjs $f; done;"
+    "i18n": "for f in frontend/i18n/*.yml; do node scripts/yaml2json.mjs $f; done;"
   },
   "dependencies": {
     "axios": "^1.5.0",
