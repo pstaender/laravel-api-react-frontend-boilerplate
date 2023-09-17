@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         php: [8.1, 8.2]
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -40,11 +41,15 @@ jobs:
 
       - name: Run tests
         run: cd api && php artisan key:generate && php artisan test
+  
   nodejs:
     name: NodeJS build-pipeline ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [18.x, 20.x]
+    
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
