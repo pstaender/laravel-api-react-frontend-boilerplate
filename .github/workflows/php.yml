@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  specs:
+  php:
     name: Tests on PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
 
@@ -37,7 +37,7 @@ jobs:
 
       - name: Setup test environment
         run: |
-          php -r "copy('.env.example', '.env.testing');"
+          cd api && php -r "copy('.env.example', '.env.testing');"
 
       - name: Run tests
-        run: php artisan test
+        run: cd api && php artisan test
