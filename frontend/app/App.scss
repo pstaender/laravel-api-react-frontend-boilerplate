@@ -1,0 +1,14 @@
+form {
+    input {
+        display: block;
+    }
+    input[type="text"], input[type="email"], input[type="password"], button {
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        width: 100%;
+    }
+    fieldset {
+        border: 0;
+    }
+}

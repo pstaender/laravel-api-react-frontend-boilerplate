@@ -1,0 +1,33 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "author": "Your name",
+  "private": true,
+  "source": "frontend/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "devDependencies": {
+    "@parcel/transformer-sass": "2.9.3",
+    "buffer": "^5.5.0||^6.0.0",
+    "jest": "^29.7.0",
+    "js-yaml": "^4.1.0",
+    "parcel": "^2.9.3",
+    "process": "^0.11.10"
+  },
+  "scripts": {
+    "start": "parcel",
+    "build": "rm -rf ./dist && npm run i18n && parcel build",
+    "develop": "rm -rf ./.parcel-cache; (trap 'kill 0' SIGINT; parcel & (cd api && composer start))",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest frontend/",
+    "i18n": "for f in frontend/i18n/*.yml; do echo $f && node scripts/yaml2json.mjs $f; done;"
+  },
+  "dependencies": {
+    "axios": "^1.5.0",
+    "dayjs": "^1.11.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^13.2.2",
+    "react-i18nify": "^6.1.1",
+    "react-router-dom": "^6.16.0",
+    "recoil": "^0.7.7"
+  }
+}

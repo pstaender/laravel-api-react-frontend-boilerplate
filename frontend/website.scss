@@ -1,0 +1,60 @@
+$breakpoints: (
+  phone: 700px
+);
+
+@import "./scss/include_media.scss";
+@import "./scss/reset.scss";
+@import "./fonts/inter/inter.css";
+
+:root {
+    --font-monospace: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    --font-sansSerif: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    font-family: var(--font-sansSerif);
+}
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: var(--font-sansSerif);
+    }
+}
+
+body {
+    padding: 1rem;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: grid;
+    place-content: center;
+}
+
+.loading-indicator {
+    height: 2rem;
+    width: 2rem;
+}
+
+#app {
+    width: 100vw;
+    text-align: center;
+    @include media('>phone') {
+        text-align: inherit;
+        max-width: 20rem;
+    }
+    
+}
+.logo {
+    background: url('../logo.svg') no-repeat center;
+    background-size: contain;
+    width: 6rem;
+    height: 6rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .loading-indicator {
+        filter: invert(1);
+    }
+}
