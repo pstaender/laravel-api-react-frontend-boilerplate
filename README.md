@@ -61,13 +61,24 @@ It will generate all production-ready static files in the `/dist`-folder.
 
 For testing e-mails in development, I recommend mailhog.
 
-TS is not enabled (because I'm not using it). But parcel itself supports TS, so enabling TS should be easy.
+TypeScript is not enabled by default (because I'm not using it). But parcel itself supports TS, so enabling should be easy.
+
+## CORS Settings
+
+To make requests from external domains to the api possible, the following CORS-settings in laravel where added:
+
+  * `api/config/cors.php`: added `'sanctum/token'` to `paths`
+  * `api/app/Http/Middleware/VerifyCsrfToken.php`: added `*` wildcard
 ## License
 
 MIT License
 
 ## Disclaimer
 
-This is (just) a boilerplate for creating (production-ready) laravel-driven api with a JS SPA as frontend. Please check all security related issues (e.g. CORS, database, mail and other settings) before deploying on production. Please also ensure that you run on the latest possible PHP (`composer update`) and NodeJS (`yarn update`) modules :) 
+This repo is (just) a boilerplate for creating projects with a laravel-driven api and a JS SPA as frontend.
+
+Please check carefully all security related settings (CORS, database, mail etc) before deploying on production.
+
+Please also ensure that you always run on the latest possible PHP (`composer update`) and NodeJS (`yarn update`) modules :) 
 
 
