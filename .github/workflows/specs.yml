@@ -1,8 +1,22 @@
-name: CI
+name: Specs
 
 on: [push]
 
 jobs:
+  nodejs:
+    name: Tests on NodeJS ${{ matrix.node-version }}
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+      steps:
+        - uses: actions/checkout@v3
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node-version }}
+        - run: yarn install
+        - run: yarn build
+        - run: yarn test
   php:
     name: Tests on PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
@@ -40,4 +54,4 @@ jobs:
           cd api && php -r "copy('.env.example', '.env.testing');"
 
       - name: Run tests
-        run: cd api && php artisan test
+        run: cd api && php artisan key:generate && php artisan test
