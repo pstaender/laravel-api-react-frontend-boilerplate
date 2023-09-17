@@ -37,7 +37,7 @@ jobs:
 
       - name: Setup test environment
         run: |
-          cd api && php -r "copy('.env.example', '.env.testing');"
+          cd api && php -r "copy('.env.example', '.env');"
 
       - name: Run tests
         run: cd api && php artisan key:generate && php artisan test
