@@ -1,4 +1,4 @@
-# Opinionated boilerplate for a laravel-powered-api with a react SPA frontend
+# Opinionated boilerplate for laravel-powered-api with react SPA frontend
 
 [![status](https://github.com/pstaender/laravel-api-react-frontend-boilerplate/actions/workflows/specs.yml/badge.svg)](https://github.com/pstaender/laravel-api-react-frontend-boilerplate/actions)
 
@@ -10,10 +10,10 @@
 ## Features (tools, libraries and frameworks)
 
   * Laravel v10
-  * React (with react-route, recoil, react-i18next and react-i18nify)
-  * Parcel v2 (for building and developing JS, includes SCSS support and HMR)
+  * React (using react-route, recoil, react-i18next and react-i18nify)
+  * Parcel v2 (bundling js, scss etc) with HMR for development
   * jest for JS tests
-  * github actions for ci (running php and js tests)
+  * github actions for php and js tests
 
 ## Folder Structure
 
@@ -23,20 +23,17 @@
 
 ## Setup
 
+Copy `api/.env.example` to `api/.env`, change values for your setup (name, db etc…), then:
+
 ```sh
 $ yarn install
 $ cd api
 $ composer install
 $ php artisan key:generate
-```
-
-Copy `api/.env.example` to `api/.env`, setup value (name, db etc…). Then run to get laravel working:
-
-```sh
 $ php artisan migrate
 ```
 
-Change for your app needs:
+Change for your needs:
 
   * routes in `api/routes/web.php`
   * e-mail-templates `api/resources/views/emails`
@@ -55,11 +52,11 @@ $ yarn develop
 $ yarn build
 ```
 
-It will generate all production-ready static files in the `/dist`-folder.
+It generates bundled production-ready frontend static files in the `/dist`-folder.
 
 ## Others
 
-For testing e-mails in development, I recommend mailhog.
+For testing e-mails in development mailhog is recommended.
 
 TypeScript is not enabled by default (because I'm not using it). But parcel itself supports TS, so enabling should be easy.
 
