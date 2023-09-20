@@ -4,7 +4,7 @@ import { t } from '../../lib/helper'
 import { useNavigate } from 'react-router-dom'
 
 export function Signup() {
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState({})
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -13,51 +13,56 @@ export function Signup() {
   const minPasswordLength = 8
 
   useEffect(() => {
-    validateForm()
-  }, [password, passwordConfirm])
-
-  useEffect(() => {
     if (!email) return
     async function checkEmailIsAvailable(email) {
       let isAvailable = await api.emailIsAvailableForSignup(email)
       if (!isAvailable) {
-        setErrors([t('E-mail has already been signed up')])
+        setErrors({
+          ...errors,
+          ...{ email: t('E-mail has already been signed up') },
+        })
       }
     }
+
+    setErrors({ ...errors, ...{ email: null } })
+
     if (/^[^@]+@[^@]+?\.[a-zA-Z]{2,}$/.test(email)) {
       checkEmailIsAvailable(email)
     }
   }, [email])
 
-  function validateForm() {
-    if (
-      password &&
-      password.length >= minPasswordLength &&
-      passwordConfirm.length > 0 &&
-      password !== passwordConfirm
-    ) {
-      setErrors([t('Passwords do not match')])
-      return false
-    }
-    if (!email || !password) {
-      setErrors([t('Please fill out all required fields')])
-      return false
-    }
-    setErrors([])
-    return true
-  }
+  useEffect(() => {
+    if (!password) return
 
-  function handleFormChange() {
-    if (!validateForm()) {
-      return
+    if (password && passwordConfirm) {
+      if (passwordConfirm === password && password.length < 8) {
+        setErrors({
+          ...errors,
+          ...{
+            password: t('Your password must have at least $chars characters', {
+              chars: minPasswordLength,
+            }),
+          },
+        })
+      } else if (
+        passwordConfirm.length >= minPasswordLength - 1 &&
+        passwordConfirm !== password
+      ) {
+        setErrors({
+          ...errors,
+          ...{ password: t('Passwords do not match') },
+        })
+      } else {
+        setErrors({ ...errors, ...{ password: null } })
+      }
     }
-  }
+  }, [password, passwordConfirm])
 
   function handleFormSubmit(ev) {
     ev.preventDefault()
     // the timeouts ensures to start the request after the basic useEffect validations
     setTimeout(async () => {
-      if (errors.length > 0) {
+      if (Object.keys(errors).map((k) => errors[k]).filter(e => !!e).length > 0) {
         return
       }
       try {
@@ -70,15 +75,14 @@ export function Signup() {
           navigate('/login?afterSignup=true')
         }
       } catch (err) {
-        alert(t('Could not login') + ': ' + err.message);
-        console.error(err);
+        alert(t('Could not login') + ': ' + err.message)
+        console.error(err)
       }
-      
     }, 100)
   }
 
   return (
-    <form onChange={handleFormChange} onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmit}>
       <fieldset>
         <input
           type="email"
@@ -109,7 +113,10 @@ export function Signup() {
           Signup
         </button>
         <div style={{ minHeight: '4rem' }}>
-          {errors.length > 0 && <p>{errors}</p>}
+          {errors &&
+            Object.keys(errors).map((k) => errors[k] ? (
+              <p key={`error-${k}`}>{errors[k]}</p>
+            ) : null)}
         </div>
       </fieldset>
     </form>

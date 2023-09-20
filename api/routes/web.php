@@ -81,7 +81,7 @@ Route::post('/passwordless-login', function (Request $request) {
         'device_name' => 'required',
     ]);
     $user = User::where('email', strtolower($request->email))->first();
-    if ($user && $user->hasVerifiedEmail() && $user->validLoginCodes()->count() < 10 && LoginCodeAttempt::where(['user_id' => $user->id])->whereDate('created_at', '<=', Carbon::now()->subMinutes(5))->count() < 10) {
+    if ($user && $user->hasVerifiedEmail() && $user->validLoginCodes()->count() < 10 && LoginCodeAttempt::where(['user_id' => $user->id])->whereTime('created_at', '>=', Carbon::now()->subMinutes(5))->count() < 10) {
         (new LoginCodeAttempt(['user_id' => $user->id]))->save();
         LoginCode::createLoginCodeAndNotifyUser(
             user: $user,
@@ -106,25 +106,26 @@ Route::post('/passwordless-login/token', function (Request $request) {
     $user = User::where('email', '=', $request->email)->first();
     if ($user && $user->hasVerifiedEmail()) {
 
-        $loginCode = $user->validLoginCodes()->where([
+        $validCodes = $user->validLoginCodes()->where([
             'code' => $request->code,
             'device_name' => $request->device_name,
-        ])->first();
+        ]);
+
+        $loginCode = $validCodes->first();
 
         (new LoginCodeAttempt([
             'user_id' => $user->id,
         ]))->save();
 
-        if (LoginCodeAttempt::where(['user_id' => $user->id])->whereDate('created_at', '>=', Carbon::now()->subMinutes(5))->count() >= 10) {
+        if (LoginCodeAttempt::where(['user_id' => $user->id])->whereTime('created_at', '>=', Carbon::now()->subMinutes(5))->count() >= 10) {
             throw ValidationException::withMessages([
                 'code' => [__('Too many login attempts')],
             ]);
         }
 
         if ($loginCode) {
-            // invalidate login code
-            $loginCode->valid_until = Carbon::now()->subDays(1);
-            $loginCode->save();
+            // invalidate login code(s)
+            $validCodes->update(['valid_until' => Carbon::now()->subDay()]);
             return [
                 'token' => $user->createToken($request->device_name)->plainTextToken,
             ];

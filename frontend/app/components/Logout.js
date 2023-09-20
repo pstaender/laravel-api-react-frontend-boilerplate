@@ -16,6 +16,7 @@ export function Logout() {
           console.error(e)
         }
         localStorage.clear()
+        sessionStorage.clear()
       }
 
       await logoutAndClearSession()

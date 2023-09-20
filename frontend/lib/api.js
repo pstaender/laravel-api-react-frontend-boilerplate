@@ -5,10 +5,13 @@ axios.defaults.baseURL =
 
 let auth_token = localStorage.getItem('authToken') || null;
 
-export function setBearerAuthToken(authToken) {
+export function setBearerAuthToken(authToken, storage = null) {
     auth_token = authToken
     axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`
-    localStorage.setItem('authToken', authToken)
+    console.log(storage)
+    if (storage) {
+        storage.setItem('authToken', authToken)
+    }
 }
 
 export function getAuthToken() {
@@ -16,6 +19,8 @@ export function getAuthToken() {
 }
 
 export async function logout() {
+    localStorage.removeItem('authToken')
+    sessionStorage.removeItem('authToken')
     return await axios.post('/api/v1/logout')
 }
 

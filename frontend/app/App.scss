@@ -12,4 +12,16 @@ form {
     fieldset {
         border: 0;
     }
+    .checkbox {
+        display: flex;
+        label {
+            width: 100%;
+        }
+        input[type="checkbox"] {
+            transform: scale(1.2) translateX(-2%);
+        }
+    }
+    button[type="submit"] {
+        margin-top: 1rem;
+    }
 }

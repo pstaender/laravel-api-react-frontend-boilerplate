@@ -1,15 +1,9 @@
 <?php
 
-namespace App\Mail;
+namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\HtmlString;
 
 class PasswordlessLogin extends Notification
@@ -60,9 +54,9 @@ class PasswordlessLogin extends Notification
             ->subject(__('Your login code'))
             ->greeting(__('Your login code:'))
             ->line(new HtmlString("<h1 style=\"$style\">$this->code</h1>"))
-            ->line(__('The code ist valid for :minutes minutes.', ['minutes' => $this->validInMinutes]));
+            ->line(__('The code ist valid for :minutes minutes', ['minutes' => $this->validInMinutes]))
             // ->action(Lang::get('Verify Email Address'), $url)
-            // ->line(Lang::get('If you did not create an account, no further action is required.'));
+            ->line(__('If you did not request a login, no further action is required'));
     }
 
 

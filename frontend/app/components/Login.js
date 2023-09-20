@@ -10,6 +10,7 @@ export function Login() {
   const [password, setPassword] = useState(null)
   const [loginCode, setLoginCode] = useState(null)
   const [passwordlessLogin, setPasswordlessLogin] = useState(true)
+  const [rememberLogin, setRememberLogin] = useState(false)
   const [showCodeInput, setShowCodeInput] = useState(false)
   const [, setUser] = useRecoilState(currentUserState)
   const navigate = useNavigate()
@@ -23,7 +24,7 @@ export function Login() {
           let res = await api.passwordlessLogin(email)
           console.info(res.message)
           setShowCodeInput(true)
-          return;
+          return
         }
         token = await api.passwordlessLoginReceiveToken(email, loginCode)
       } else {
@@ -31,7 +32,7 @@ export function Login() {
       }
 
       if (token) {
-        api.setBearerAuthToken(token)
+        api.setBearerAuthToken(token, rememberLogin ? localStorage : sessionStorage)
         const user = await api.user()
         setUser(user.email)
         navigate('/home')
@@ -72,15 +73,30 @@ export function Login() {
         )}
         {showCodeInput && (
           <input
-          type="text"
-          maxLength={6}
-          required={true}
-          placeholder={t('Your login code')}
-          data-tooltip-content={t('If you have signed up correctly, you have now received a login code which you can place here')}
-          autoFocus={true}
-          onChange={(ev) => setLoginCode(ev.target.value)}
-        ></input>
+            type="text"
+            inputMode="numeric"
+            pattern="\d{4,}"
+            maxLength={4}
+            required={true}
+            placeholder={t('Your login code')}
+            data-tooltip-content={t(
+              'If you have signed up correctly, you have now received a login code which you can place here'
+            )}
+            autoFocus={true}
+            onChange={(ev) => setLoginCode(ev.target.value)}
+          ></input>
         )}
+        {password?.length >= 8 || loginCode?.length >= 4 && (
+          <div className="checkbox">
+          <label htmlFor="remember-login">{t('Remember login')}</label>
+          <input
+            type="checkbox"
+            id="remember-login"
+            onChange={(ev) => setRememberLogin(ev.target.checked)}
+          ></input>
+        </div>
+        )}
+        
 
         <button type="submit">Login</button>
       </fieldset>

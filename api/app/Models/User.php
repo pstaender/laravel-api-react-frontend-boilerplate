@@ -53,6 +53,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function validLoginCodes()
     {
-        return $this->hasMany(LoginCode::class, 'user_id')->whereDate('valid_until', '<=', \Carbon\Carbon::now());
+        return $this->hasMany(LoginCode::class, 'user_id')->whereTime('valid_until', '>=', \Carbon\Carbon::now());
     }
 }
