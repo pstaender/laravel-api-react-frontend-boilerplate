@@ -58,7 +58,7 @@ class PasswordlessLogin extends Notification
         $style = "padding: 2rem 4rem; display: block; text-align: center; font-size: 2rem; background: #000; color: #fff; border-radius: 5px; letter-spacing: 0.5rem;";
         return (new MailMessage)
             ->subject(__('Your login code'))
-            ->greeting(__('Hi, here is your login code:'))
+            ->greeting(__('Your login code:'))
             ->line(new HtmlString("<h1 style=\"$style\">$this->code</h1>"))
             ->line(__('The code ist valid for :minutes minutes.', ['minutes' => $this->validInMinutes]));
             // ->action(Lang::get('Verify Email Address'), $url)

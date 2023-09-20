@@ -26,8 +26,6 @@ export function Login() {
           return;
         }
         token = await api.passwordlessLoginReceiveToken(email, loginCode)
-        console.log({token})
-        
       } else {
         token = await api.receiveAuthToken(email, password)
       }
@@ -78,6 +76,7 @@ export function Login() {
           maxLength={6}
           required={true}
           placeholder={t('Your login code')}
+          data-tooltip-content={t('If you have signed up correctly, you have now received a login code which you can place here')}
           autoFocus={true}
           onChange={(ev) => setLoginCode(ev.target.value)}
         ></input>

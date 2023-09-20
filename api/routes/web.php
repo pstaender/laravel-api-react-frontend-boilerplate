@@ -41,7 +41,7 @@ function validateEmailAndPassword(string $email, string $password)
 
     if (!$user->email_verified_at) {
         throw ValidationException::withMessages([
-            'email' => [__('Please confirm e-mail first')],
+            'email' => [__('Please confirm your e-mail-address first')],
         ]);
     }
 
@@ -92,7 +92,7 @@ Route::post('/passwordless-login', function (Request $request) {
         );
     }
     return [
-        'message' => 'If you have signed up, you will receive now a message with a login code',
+        'message' => __('If you have signed up correctly, you have now received a login code'),
     ];
 });
 
@@ -117,7 +117,7 @@ Route::post('/passwordless-login/token', function (Request $request) {
 
         if (LoginCodeAttempt::where(['user_id' => $user->id])->whereDate('created_at', '>=', Carbon::now()->subMinutes(5))->count() >= 10) {
             throw ValidationException::withMessages([
-                'code' => [__('Too many tries')],
+                'code' => [__('Too many login attempts')],
             ]);
         }
 
@@ -131,7 +131,7 @@ Route::post('/passwordless-login/token', function (Request $request) {
         }
     }
     throw ValidationException::withMessages([
-        'code' => [__('Code or E-Mail is invalid')],
+        'code' => [__('Code or e-mail is invalid')],
     ]);
 });
 

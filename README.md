@@ -7,13 +7,15 @@
   * PHP 8.1+
   * NodeJS 18+
 
-## Features (tools, libraries and frameworks)
+## Features (tools, libraries, frameworks and concepts)
 
   * Laravel v10
   * React (using react-route, recoil, react-i18next and react-i18nify)
   * Parcel v2 (bundling js, scss etc) with HMR for development
   * jest for JS tests
   * github actions for php and js tests
+  * unified translations for react-frontend and laravel
+  * optional: passwordless login otps via e-mail
 
 ## Folder Structure
 

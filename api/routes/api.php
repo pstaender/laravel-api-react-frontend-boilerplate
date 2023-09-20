@@ -40,14 +40,14 @@ Route::group(['prefix' => 'v1'], function () {
 
         if (User::where(['email' => $email])->first()) {
             return response()->json([
-                'error' => 'Email already exists',
+                'error' => __('E-Mail already exists'),
                 'statusCode' => 409
             ], 409);
         }
 
         if ($request->input('password') === $request->input('email')) {
             return response()->json([
-                'error' => 'Password must be different than email',
+                'error' => __('Password must be different than email'),
                 'statusCode' => 409
             ], 409);
         }
@@ -63,7 +63,6 @@ Route::group(['prefix' => 'v1'], function () {
 
         return [
             'message' => __('Signup created. Please confirm your e-mail before logging in'),
-            // 'user' => new UserResource($user)
         ];
     });
 
@@ -95,7 +94,7 @@ Route::group(['prefix' => 'v1'], function () {
             $user = $request->user();
             if (!\Illuminate\Support\Facades\Hash::check($request->input('password'), $user->password)) {
                 return response()->json([
-                    'error' => 'The password did not match',
+                    'error' => __('The password did not match'),
                     'statusCode' => 409
                 ], 409);
             }

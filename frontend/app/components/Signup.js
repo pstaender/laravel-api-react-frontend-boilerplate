@@ -21,7 +21,7 @@ export function Signup() {
     async function checkEmailIsAvailable(email) {
       let isAvailable = await api.emailIsAvailableForSignup(email)
       if (!isAvailable) {
-        setErrors([t('E-Mail has already been signed up')])
+        setErrors([t('E-mail has already been signed up')])
       }
     }
     if (/^[^@]+@[^@]+?\.[a-zA-Z]{2,}$/.test(email)) {
