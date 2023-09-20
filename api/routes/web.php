@@ -1,12 +1,19 @@
 <?php
 
+use App\Mail\PasswordlessLogin;
+use App\Models\LoginCode;
+use App\Models\LoginCodeAttempt;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 
@@ -21,6 +28,35 @@ use Illuminate\Support\Str;
 |
 */
 
+function validateEmailAndPassword(string $email, string $password)
+{
+    $email = strtolower($email);
+    $user = User::where('email', $email)->first();
+
+    if (!$user) {
+        throw ValidationException::withMessages([
+            'email' => [__('The provided credentials are incorrect')],
+        ]);
+    }
+
+    if (!$user->email_verified_at) {
+        throw ValidationException::withMessages([
+            'email' => [__('Please confirm e-mail first')],
+        ]);
+    }
+
+    if (Auth::attempt([
+        'email' => $email,
+        'password' => $password,
+    ])) {
+        throw ValidationException::withMessages([
+            'email' => [__('The provided credentials are incorrect')],
+        ]);
+    }
+
+    return $user;
+}
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -32,59 +68,111 @@ Route::post('/sanctum/token', function (Request $request) {
         'password' => 'required',
         'device_name' => 'required',
     ]);
-
-    $user = User::where('email', $request->email)->first();
-
-    if (!$user) {
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect'],
-        ]);
-    }
-
-    if (!$user->email_verified_at) {
-        throw ValidationException::withMessages([
-            'email' => ['Please confirm e-mail first'],
-        ]);
-    }
-
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect'],
-        ]);
-    }
-
+    $user = validateEmailAndPassword(
+        email: $request->email,
+        password: $request->password,
+    );
     return $user->createToken($request->device_name)->plainTextToken;
 });
 
+Route::post('/passwordless-login', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'device_name' => 'required',
+    ]);
+    $user = User::where('email', strtolower($request->email))->first();
+    if ($user && $user->hasVerifiedEmail() && $user->validLoginCodes()->count() < 10 && LoginCodeAttempt::where(['user_id' => $user->id])->whereDate('created_at', '<=', Carbon::now()->subMinutes(5))->count() < 10) {
+        (new LoginCodeAttempt(['user_id' => $user->id]))->save();
+        LoginCode::createLoginCodeAndNotifyUser(
+            user: $user,
+            device_name: $request->device_name,
+            validInMinutes: 5,
+            codeLength: 4,
+            ip: $request->ip()
+        );
+    }
+    return [
+        'message' => 'If you have signed up, you will receive now a message with a login code',
+    ];
+});
+
+Route::post('/passwordless-login/token', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'code' => 'required',
+        'device_name' => 'required',
+    ]);
+    // check that not more than x are generated in the last 5 minutes
+    $user = User::where('email', '=', $request->email)->first();
+    if ($user && $user->hasVerifiedEmail()) {
+
+        $loginCode = $user->validLoginCodes()->where([
+            'code' => $request->code,
+            'device_name' => $request->device_name,
+        ])->first();
+
+        (new LoginCodeAttempt([
+            'user_id' => $user->id,
+        ]))->save();
+
+        if (LoginCodeAttempt::where(['user_id' => $user->id])->whereDate('created_at', '>=', Carbon::now()->subMinutes(5))->count() >= 10) {
+            throw ValidationException::withMessages([
+                'code' => [__('Too many tries')],
+            ]);
+        }
+
+        if ($loginCode) {
+            // invalidate login code
+            $loginCode->valid_until = Carbon::now()->subDays(1);
+            $loginCode->save();
+            return [
+                'token' => $user->createToken($request->device_name)->plainTextToken,
+            ];
+        }
+    }
+    throw ValidationException::withMessages([
+        'code' => [__('Code or E-Mail is invalid')],
+    ]);
+});
 
 Route::get('/verify-email/{id}/{hash}', function ($id, $hash, Request $request) {
     $user = User::findOrFail($id);
     $email = $user->getEmailForVerification();
 
-    $createInitialSessionForLogin = true;
 
-    if ($email && !$user->hasVerifiedEmail()) {
-
+    $createInitialSessionForLoginAndRedirectToFrontend = function ($user, Request $request, bool $removeIpAndDeviceFromUserSignup = false) {
         $userAgent = $request->device_name ?: ($request->userAgent() ?: 'unknown');
-
-        $user->markEmailAsVerified();
-        event(new Verified($user));
-        if ($createInitialSessionForLogin) {
-            if ($user->signup_device !== $userAgent) {
-                return [
-                    'warning' => 'Signup device is different from current device. No auto sign in available. Please login manually',
-                    'user_signup_device' => $user->signup_device,
-                    'user_agent' => $userAgent,
-                ];
-            }
+        $signupIp = $user->signup_ip;
+        $signupDevice = $user->signup_device;
+        if ($removeIpAndDeviceFromUserSignup) {
+            $user->signup_ip = $user->signup_device = null;
+            $user->save();
+        }
+        if ($signupIp !== $request->ip() || $signupDevice !== $userAgent) {
             return redirect(
-                env('FRONTEND_URL', '') . '/?authToken=' . $user->createToken($userAgent)->plainTextToken,
+                env('FRONTEND_URL', '') . '/?emailConfirmed=✓',
                 307
             );
-        } else {
-            return redirect('/?email_confirmed=successful', 307);
         }
+        return redirect(
+            env('FRONTEND_URL', '') . '/?authToken=' . $user->createToken($userAgent)->plainTextToken,
+            307
+        );
+    };
+
+
+    if ($email && !$user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+        event(new Verified($user));
+
+        return $createInitialSessionForLoginAndRedirectToFrontend(
+            user: $user,
+            request: $request,
+            removeIpAndDeviceFromUserSignup: true
+        );
+        // return redirect('/?email_confirmed=successful', 307);
     }
+
     return redirect(env('REDIRECT_TO_IF_NOT_AUTHENTICATE', '/?from=invalid_email_confirm'), 307);
 })->middleware(['signed'])->name('verification.verify');
 

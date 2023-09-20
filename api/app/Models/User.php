@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'email',
         'password',
         'signup_device',
+        'signup_ip',
     ];
 
     /**
@@ -45,8 +46,13 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'password' => 'hashed',
     ];
 
-    // public function personalAccessTokens()
-    // {
-    //     return $this->hasMany(PersonalAccessToken::class, 'tokenable_id');
-    // }
+    public function personalAccessTokens()
+    {
+        return $this->hasMany(PersonalAccessToken::class, 'tokenable_id');
+    }
+
+    public function validLoginCodes()
+    {
+        return $this->hasMany(LoginCode::class, 'user_id')->whereDate('valid_until', '<=', \Carbon\Carbon::now());
+    }
 }

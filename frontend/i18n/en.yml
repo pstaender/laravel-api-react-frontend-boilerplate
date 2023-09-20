@@ -9,3 +9,6 @@ en:
   Could not login. Wrong Password?: Could not login. Wrong Password?
   Could not login: Could not login
   Signup created. Please confirm your e-mail before logging in: Signup created. Please confirm your e-mail before logging in.
+  # Laravel
+  Your login code: Your login code
+  Signup created. Please confirm your e-mail before logging in: Signup created. Please confirm your e-mail before logging in

@@ -30,16 +30,21 @@ Route::group(['prefix' => 'v1'], function () {
         });
 
     Route::post('/signup', function (Request $request) {
+
         $request->validate([
             'email' => 'email|required',
             'password' => 'required|min:8',
         ]);
-        if (User::where(['email' => $request->input('email')])->first()) {
+
+        $email = strtolower($request->input('email'));
+
+        if (User::where(['email' => $email])->first()) {
             return response()->json([
                 'error' => 'Email already exists',
                 'statusCode' => 409
             ], 409);
         }
+
         if ($request->input('password') === $request->input('email')) {
             return response()->json([
                 'error' => 'Password must be different than email',
@@ -47,16 +52,18 @@ Route::group(['prefix' => 'v1'], function () {
             ], 409);
         }
         $user = User::create([
-            'email' => $request->input('email'),
+            'email' => $email,
             'password' => Hash::make($request->input('password')),
             'signup_device' => $request->userAgent(),
+            'signup_ip' => $request->ip(),
         ]);
         $user->save();
         // https://laravel.com/docs/10.x/verification
         event(new \Illuminate\Auth\Events\Registered($user));
+
         return [
-            'message' => 'Signup created. Please confirm your e-mail before logging in',
-            'user' => new UserResource($user)
+            'message' => __('Signup created. Please confirm your e-mail before logging in'),
+            // 'user' => new UserResource($user)
         ];
     });
 
@@ -64,6 +71,7 @@ Route::group(['prefix' => 'v1'], function () {
         '/signup/email_is_available/{email}',
         function ($email, Request $request): array {
             sleep(.5);
+            $email = strtolower($email);
             $valid = (new EmailValidator())->isValid($email, new \Egulias\EmailValidator\Validation\RFCValidation());
             if (!$valid) {
                 return [
@@ -79,7 +87,7 @@ Route::group(['prefix' => 'v1'], function () {
     );
 
     Route::post('/resend_email_verification/{email}', function ($email) {
-        User::where(['email' => $email])->first()->sendEmailVerificationNotification();
+        User::where(['email' => strtolower($email)])->first()->sendEmailVerificationNotification();
     });
 
     Route::middleware('auth:sanctum')

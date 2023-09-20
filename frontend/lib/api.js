@@ -8,6 +8,7 @@ let auth_token = localStorage.getItem('authToken') || null;
 export function setBearerAuthToken(authToken) {
     auth_token = authToken
     axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`
+    localStorage.setItem('authToken', authToken)
 }
 
 export function getAuthToken() {
@@ -22,9 +23,13 @@ export async function user() {
     return (await axios.get('/api/v1/user')).data
 }
 
+function userAgentDevice() {
+    return navigator.userAgent.replace(/\s.+$/, '')
+}
+
 export async function receiveAuthToken(email, password, deviceName = null) {
     if (!deviceName) {
-        deviceName = navigator.userAgent.replace(/\s.+$/, '')
+        deviceName = userAgentDevice();
     }
     await axios.get('/sanctum/csrf-cookie')
     // this request above did just set cookie in application cookie, otherwise we'll get a CSRF mismatch error
@@ -34,6 +39,24 @@ export async function receiveAuthToken(email, password, deviceName = null) {
         device_name: deviceName,
     })
     return data
+}
+
+export async function passwordlessLogin(email) {
+    // await axios.post('/passwordless-login/token')
+    let { data } = await axios.post('/passwordless-login', {
+        email,
+        device_name: userAgentDevice(),
+    })
+    return data
+}
+
+export async function passwordlessLoginReceiveToken(email, code) {
+    let { data } = await axios.post('/passwordless-login/token', {
+        email,
+        code,
+        device_name: userAgentDevice()
+    })
+    return data.token
 }
 
 export async function csrfCookie() {

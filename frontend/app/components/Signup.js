@@ -60,14 +60,20 @@ export function Signup() {
       if (errors.length > 0) {
         return
       }
-      let signupResult = await api.signup({
-        email,
-        password,
-      })
-      if (signupResult.message) {
-        alert(t(signupResult.message))
-        navigate('/login?afterSignup=true')
+      try {
+        let signupResult = await api.signup({
+          email,
+          password,
+        })
+        if (signupResult.message) {
+          alert(t(signupResult.message))
+          navigate('/login?afterSignup=true')
+        }
+      } catch (err) {
+        alert(t('Could not login') + ': ' + err.message);
+        console.error(err);
       }
+      
     }, 100)
   }
 
