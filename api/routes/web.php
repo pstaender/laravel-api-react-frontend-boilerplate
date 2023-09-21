@@ -1,6 +1,5 @@
 <?php
 
-use App\Mail\PasswordlessLogin;
 use App\Models\LoginCode;
 use App\Models\LoginCodeAttempt;
 use Illuminate\Support\Facades\Route;
@@ -11,9 +10,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 
@@ -45,16 +42,18 @@ function validateEmailAndPassword(string $email, string $password)
         ]);
     }
 
-    if (Auth::attempt([
+    $verified = \Illuminate\Support\Facades\Auth::attempt([
         'email' => $email,
-        'password' => $password,
-    ])) {
-        throw ValidationException::withMessages([
-            'email' => [__('The provided credentials are incorrect')],
-        ]);
+        'password' => $password
+    ]);
+
+    if ($verified) {
+        return $user;
     }
 
-    return $user;
+    throw ValidationException::withMessages([
+        'email' => [__('The provided credentials are incorrect')],
+    ]);
 }
 
 Route::get('/', function () {
@@ -68,11 +67,8 @@ Route::post('/sanctum/token', function (Request $request) {
         'password' => 'required',
         'device_name' => 'required',
     ]);
-    $user = validateEmailAndPassword(
-        email: $request->email,
-        password: $request->password,
-    );
-    return $user->createToken($request->device_name)->plainTextToken;
+    $user = validateEmailAndPassword($request->email, $request->password);
+    return $user ? $user->createToken($request->device_name)->plainTextToken : null;
 });
 
 Route::post('/passwordless-login', function (Request $request) {

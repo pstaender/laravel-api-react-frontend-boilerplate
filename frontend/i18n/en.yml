@@ -18,5 +18,5 @@ en:
   Signup created. Please confirm your e-mail before logging in: Signup created. Please confirm your e-mail before logging in
   Password must be different than email: Password must be different than email
   E-Mail already exists: E-Mail already exists
-  The code ist valid for $minutes minutes: The code ist valid for %{minutes} minutes.
+  The code is valid for $minutes minutes: The code ist valid for %{minutes} minutes.
   If you did not request a login, no further action is required: If you did not request a login, no further action is required.

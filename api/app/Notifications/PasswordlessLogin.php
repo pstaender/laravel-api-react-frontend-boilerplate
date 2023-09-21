@@ -54,7 +54,7 @@ class PasswordlessLogin extends Notification
             ->subject(__('Your login code'))
             ->greeting(__('Your login code:'))
             ->line(new HtmlString("<h1 style=\"$style\">$this->code</h1>"))
-            ->line(__('The code ist valid for :minutes minutes', ['minutes' => $this->validInMinutes]))
+            ->line(__('The code is valid for $minutes minutes', ['minutes' => $this->validInMinutes]))
             // ->action(Lang::get('Verify Email Address'), $url)
             ->line(__('If you did not request a login, no further action is required'));
     }

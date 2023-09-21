@@ -1,0 +1,30 @@
+# auto-translated
+de:
+  React is running: React wird ausgeführt 🚀.
+  Email already exists: E-Mail existiert bereits.
+  Please confirm e-mail first: Bitte bestätigen Sie zunächst Ihre E-Mail.
+  Passwords do not match: Die Kennwörter stimmen nicht überein.
+  E-mail has already been signed up: >-
+    Die E-Mail wurde bereits registriert. Bitte melden Sie sich an oder
+    verwenden Sie eine andere E-Mail.
+  Could not login. Wrong Password?: Sie konnten sich nicht anmelden. Falsches Passwort?
+  Could not login: Keine Anmeldung möglich
+  Your password must have at least $chars characters: Ihr Passwort muss mindestens %{chars} Zeichen enthalten.
+  Your login code: Ihr Anmeldecode
+  If you have signed up correctly, you have now received a login code which you can place here: >-
+    Wenn Sie sich korrekt angemeldet haben, haben Sie jetzt einen Anmeldecode
+    erhalten, den Sie hier eingeben können.
+  The provided credentials are incorrect: Die angegebenen Anmeldeinformationen sind falsch
+  Please confirm your e-mail-address first: Bitte bestätigen Sie zunächst Ihre E-Mail Adresse
+  Too many login attempts: Zu viele Anmeldeversuche
+  Code or e-mail is invalid: Code oder E-Mail ist ungültig
+  The password did not match: Das Passwort stimmt nicht überein
+  Signup created. Please confirm your e-mail before logging in: >-
+    Anmeldung erstellt. Bitte bestätigen Sie Ihre E-Mail, bevor Sie sich
+    anmelden.
+  Password must be different than email: Das Passwort muss sich von der E-Mail unterscheiden
+  E-Mail already exists: E-Mail existiert bereits
+  The code is valid for $minutes minutes: Der Code ist gültig für %{minutes} Minuten.
+  If you did not request a login, no further action is required: >-
+    Wenn Sie keine Anmeldung beantragt haben, sind keine weiteren Schritte
+    erforderlich.

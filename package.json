@@ -8,6 +8,7 @@
   "devDependencies": {
     "@parcel/transformer-sass": "2.9.3",
     "buffer": "^5.5.0||^6.0.0",
+    "deepl-node": "^1.10.2",
     "jest": "^29.7.0",
     "js-yaml": "^4.1.0",
     "parcel": "^2.9.3",

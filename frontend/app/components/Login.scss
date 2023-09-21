@@ -1,0 +1,44 @@
+form {
+    input {
+        display: block;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    button {
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        width: 100%;
+        // font-family: var(--font-monospace);
+    }
+    fieldset {
+        border: 0;
+    }
+    .checkbox {
+        display: flex;
+        label {
+            width: 100%;
+        }
+        input[type="checkbox"] {
+            transform: scale(1.2) translateX(-2%);
+        }
+        margin-bottom: 1rem;
+    }
+    .password-info {
+        min-height: 3rem;
+
+        font-size: 0.7rem;
+        > div {
+            opacity: 0.8;
+        }
+        a {
+            opacity: 1;
+            text-decoration: none;
+            color: currentColor;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
