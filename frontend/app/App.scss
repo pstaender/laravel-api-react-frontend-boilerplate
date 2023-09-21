@@ -1,0 +1,38 @@
+body {
+    display: grid;
+    place-content: center;
+}
+
+#app {
+    width: 100vw;
+    text-align: center;
+    @include media('>phone') {
+        text-align: inherit;
+        max-width: 20rem;
+    }
+    
+}
+
+.logo {
+    background: url('../../logo.svg') no-repeat center;
+    background-size: contain;
+    width: 6rem;
+    height: 6rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+#app-loading-indicator {
+    height: 2rem;
+    width: 2rem;
+    position: fixed;
+    top: calc(50vh - 1rem);
+    left: calc(50vw - 1rem);
+}
+
+
+@media (prefers-color-scheme: dark) {
+    #app-loading-indicator {
+        filter: invert(1);
+    }
+}
