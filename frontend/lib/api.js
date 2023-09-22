@@ -8,7 +8,6 @@ let auth_token = localStorage.getItem('authToken') || null;
 export function setBearerAuthToken(authToken, storage = null) {
     auth_token = authToken
     axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`
-    console.log(storage)
     if (storage) {
         storage.setItem('authToken', authToken)
     }

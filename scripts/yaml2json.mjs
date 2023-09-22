@@ -52,7 +52,6 @@ async function translateYaml(yamlFile, targetLanguages) {
         '%{$1}'
       )
     })
-    // console.log(results, texts, translations)
   }
   return translations
 }
