@@ -10,16 +10,17 @@ export function Logout() {
   useEffect(() => {
     async function logoutAndRedirectToRootUrl() {
       async function logoutAndClearSession() {
+        window.localStorage.clear()
+        window.sessionStorage.clear()
         try {
           await api.logout()
         } catch (e) {
           console.error(e)
         }
-        localStorage.clear()
-        sessionStorage.clear()
       }
 
       await logoutAndClearSession()
+      console.debug('Session cleared')
       setUser(null)
       navigate('/')
     }

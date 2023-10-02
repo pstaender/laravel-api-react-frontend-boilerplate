@@ -74,6 +74,7 @@ export function Login() {
             required={true}
             placeholder={t('Password')}
             autoComplete="current-password"
+            autoFocus={true}
             onChange={(ev) => setPassword(ev.target.value)}
           ></input>
         )}

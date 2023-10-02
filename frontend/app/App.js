@@ -21,8 +21,26 @@ export function App() {
 
   useEffect(() => {
     async function loginUser(token) {
-      api.setBearerAuthToken(token)
-      let user = await api.user()
+      let localStorage = window.localStorage
+      api.setBearerAuthToken(token, localStorage)
+      let user = null
+      try {
+        user = await api.user()
+      } catch (e) {
+        console.log(localStorage.getItem('authToken'))
+        if (e.response?.status === 401 && localStorage.getItem('authToken')) {
+          console.debug(
+            `Session invalid. Clearing authtoken from local storage now and send visitor to login`
+          )
+          localStorage.removeItem('authToken')
+          if (window.location.pathname !== '/login') {
+            window.location.href = '/login'
+          }
+          return
+        } else {
+          throw e
+        }
+      }
       setUser(user.email)
       console.debug(`Logged in as ${user.email}`)
     }

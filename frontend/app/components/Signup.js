@@ -89,6 +89,7 @@ export function Signup() {
           id="email"
           required={true}
           placeholder={t('E-Mail')}
+          autoFocus={true}
           onChange={(ev) => setEmail(ev.target.value)}
         ></input>
         <input
