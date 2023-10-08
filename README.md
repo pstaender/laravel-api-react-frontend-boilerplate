@@ -44,6 +44,13 @@ Change for your needs:
   * change logo(s) `/logo.svg` and `/logo.webp`
   * Set your frontend domain url `FRONTEND_URL` in the laravel `.env`-files
 
+### Optional: Queue and Cache via database
+
+```sh
+$ php artisan cache:table
+$ php artisan queue:table
+```
+
 ## Development
 
 ```sh
