@@ -1,3 +1,6 @@
-import { t } from 'react-i18nify'
+import { translate } from 'react-i18nify'
 
-export { t }
+export function t(key, replacements = {}, options = {}) {
+  key = key.replace(/\./g, '_')
+  return translate(key, replacements, options)
+}

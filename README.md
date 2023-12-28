@@ -86,3 +86,9 @@ Please check carefully all security related settings (CORS, database, mail etc) 
 Please also ensure that you always run on the latest possible PHP `composer update` and NodeJS `yarn update` modules :) 
 
 
+* REMOVE i18n-react
+* update translations scripts and commands
+* user as atom, instead of email
+* api docs
+* set expire date of tokens
+
