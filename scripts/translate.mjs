@@ -46,17 +46,28 @@ async function translateJSON(yamlFile, targetLanguages) {
       texts.push([key, val])
     }
 
-    let text = texts.map((v) => v[1])
+    // let text = texts.map((v) => v[1])
 
-    let cacheKey = `${sourceLang}:${targetLang}:${text}`
+    let textToTranslate = []
 
-    if (cacheDeepl && deeplCache[cacheKey]) {
-      translations[targetLang] = deeplCache[cacheKey]
+    for (let text of texts) {
+      let cacheKey = `${sourceLang}:${targetLang}:${text[0]}`
+      if (cacheDeepl && deeplCache[cacheKey]) {
+        translations[targetLang][text[0]] = deeplCache[cacheKey]
+        continue
+      } else {
+        textToTranslate.push(text)
+      }
+    }
+
+    let values = textToTranslate.map((v) => v[1])
+
+    if (values.length === 0) {
       continue
     }
 
     const results = await translator.translateText(
-      text,
+      values,
       sourceLang,
       targetLang,
       {
@@ -64,21 +75,15 @@ async function translateJSON(yamlFile, targetLanguages) {
         ignoreTags: ['ignore'],
       }
     )
+    
     results.forEach((result, i) => {
-      texts[i].push(result.text)
+      textToTranslate[i][2] = result.text
     })
-    texts.forEach((v) => {
-      translations[targetLang][v[0]] = v[2].replace(
-        /<ignore>(.+?)<\/ignore>/,
-        '%{$1}'
-      )
+    textToTranslate.forEach((v) => {
+      let cacheKey = `${sourceLang}:${targetLang}:${v[0]}`
+      let translation = v[2].replace(/<ignore>(.+?)<\/ignore>/, '%{$1}')
+      translations[targetLang][v[0]] = deeplCache[cacheKey] = translation
     })
-    if (cacheDeepl) {
-      if (!deeplCache[cacheKey]) {
-        deeplCache[cacheKey] = {}
-      }
-      deeplCache[cacheKey] = translations[targetLang]
-    }
   }
   if (cacheDeepl) {
     await fs.writeFile(
