@@ -2,6 +2,8 @@
 
 [![status](https://github.com/pstaender/laravel-api-react-frontend-boilerplate/actions/workflows/specs.yml/badge.svg)](https://github.com/pstaender/laravel-api-react-frontend-boilerplate/actions)
 
+https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/140571/283aa657-92c3-493b-bcf3-c85a3723b837
+
 ## Requirements
 
   * PHP 8.1+
@@ -41,6 +43,13 @@ Change for your needs:
   * e-mail-templates `api/resources/views/emails`
   * change logo(s) `/logo.svg` and `/logo.webp`
   * Set your frontend domain url `FRONTEND_URL` in the laravel `.env`-files
+
+### Optional: Queue and Cache via database
+
+```sh
+$ php artisan cache:table
+$ php artisan queue:table
+```
 
 ## Development
 
