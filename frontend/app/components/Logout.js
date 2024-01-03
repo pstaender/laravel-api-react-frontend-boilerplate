@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import { useRecoilState } from 'recoil'
+import { useAtom } from 'jotai'
 import { currentUserState } from '../states/currentUserState'
 import { useNavigate } from 'react-router-dom'
 import * as api from '../../lib/api'
 
 export function Logout() {
-  const [, setUser] = useRecoilState(currentUserState)
+  const [, setUser] = useAtom(currentUserState)
   const navigate = useNavigate();
   useEffect(() => {
     async function logoutAndRedirectToRootUrl() {
@@ -21,7 +21,7 @@ export function Logout() {
 
       await logoutAndClearSession()
       console.debug('Session cleared')
-      setUser(null)
+      setUser({})
       navigate('/')
     }
     logoutAndRedirectToRootUrl()

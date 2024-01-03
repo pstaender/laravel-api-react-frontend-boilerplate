@@ -2,7 +2,7 @@ import './Login.scss'
 
 import { useState } from 'react'
 import { currentUserState } from '../states/currentUserState'
-import { useRecoilState } from 'recoil'
+import { useAtom } from 'jotai'
 import * as api from '../../lib/api'
 import { t } from '../../lib/helper'
 import { useNavigate } from 'react-router-dom'
@@ -12,9 +12,9 @@ export function Login() {
   const [password, setPassword] = useState(null)
   const [loginCode, setLoginCode] = useState(null)
   const [passwordlessLogin, setPasswordlessLogin] = useState(true)
-  const [rememberLogin, setRememberLogin] = useState(false)
+  const [rememberLogin, setRememberLogin] = useState(true)
   const [showCodeInput, setShowCodeInput] = useState(false)
-  const [, setUser] = useRecoilState(currentUserState)
+  const [, setUser] = useAtom(currentUserState)
   const navigate = useNavigate()
 
   async function handleFormSubmit(ev) {
@@ -39,7 +39,7 @@ export function Login() {
           rememberLogin ? localStorage : sessionStorage
         )
         const user = await api.user()
-        setUser(user.email)
+        setUser({ email: user.email })
         navigate('/home')
       }
     } catch (e) {
@@ -52,6 +52,8 @@ export function Login() {
           )
         }
         console.debug(e.response.data.message)
+      } else {
+        alert(`${t('Could not login')}: ${e.message}`)
       }
       console.error(e.message)
     }
@@ -93,27 +95,23 @@ export function Login() {
               autoFocus={true}
               onChange={(ev) => setLoginCode(ev.target.value)}
             ></input>
-            <div className='password-info'>
+            <div className="password-info">
               <div>{t('We sent the login code')}</div>
-              <a
-                href="#"
-                onClick={() => setPasswordlessLogin(false)}
-              >
+              <a href="#" onClick={() => setPasswordlessLogin(false)}>
                 {t('Click here, if you want to use your password instead')}
               </a>
             </div>
           </>
         )}
-        {(password?.length >= 8 || loginCode?.length >= 4) && (
-          <div className="checkbox">
-            <label htmlFor="remember-login">{t('Remember login')}</label>
-            <input
-              type="checkbox"
-              id="remember-login"
-              onChange={(ev) => setRememberLogin(ev.target.checked)}
-            ></input>
-          </div>
-        )}
+        <div className="checkbox">
+          <label htmlFor="remember-login">{t('Remember login')}</label>
+          <input
+            type="checkbox"
+            id="remember-login"
+            defaultChecked={rememberLogin}
+            onChange={(ev) => setRememberLogin(ev.target.checked)}
+          ></input>
+        </div>
 
         <button type="submit">Login</button>
       </fieldset>

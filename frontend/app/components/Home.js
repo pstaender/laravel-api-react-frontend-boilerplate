@@ -1,11 +1,11 @@
-import { useRecoilState } from 'recoil'
+import { useAtom } from 'jotai'
 import { currentUserState } from '../states/currentUserState'
 import { Link } from 'react-router-dom'
 export function Home() {
-  const [user] = useRecoilState(currentUserState)
+  const [user] = useAtom(currentUserState)
   return (
     <center>
-      <h1>Welcome {user}!</h1>
+      <h1>Welcome {user.email}!</h1>
       <br></br>
       <p>
         <Link to="/logout">Logout</Link>

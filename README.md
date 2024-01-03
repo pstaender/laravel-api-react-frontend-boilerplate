@@ -5,7 +5,7 @@
 ## Requirements
 
   * PHP 8.1+
-  * NodeJS 18+
+  * NodeJS 20+
 
 ## Features (tools, libraries, frameworks and concepts)
 
@@ -87,8 +87,6 @@ Please also ensure that you always run on the latest possible PHP `composer upda
 
 
 * REMOVE i18n-react
-* update translations scripts and commands
-* user as atom, instead of email
 * api docs
 * set expire date of tokens
 

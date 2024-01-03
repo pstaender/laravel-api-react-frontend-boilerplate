@@ -1,15 +1,13 @@
 import './App.scss'
 
 import { BrowserRouter, Link, Route, Routes, Navigate } from 'react-router-dom'
-
+import { useAtom } from 'jotai'
 import * as api from '../lib/api'
 
 import { currentUserState } from './states/currentUserState'
 
 import '../i18n/i18n'
 import { t } from '../lib/helper'
-
-import { useRecoilState, useRecoilValue } from 'recoil'
 import { useEffect } from 'react'
 import { Signup } from './components/Signup'
 import { Login } from './components/Login'
@@ -17,7 +15,7 @@ import { Home } from './components/Home'
 import { Logout } from './components/Logout'
 
 export function App() {
-  const [user, setUser] = useRecoilState(currentUserState)
+  const [user, setUser] = useAtom(currentUserState)
 
   useEffect(() => {
     async function loginUser(token) {
@@ -41,15 +39,17 @@ export function App() {
           throw e
         }
       }
-      setUser(user.email)
+      setUser({ email: user.email })
       console.debug(`Logged in as ${user.email}`)
     }
 
     async function fetchUser() {
-      if (!user) {
+      if (!user?.email) {
         let token = new URLSearchParams(window.location.search).get('authToken')
 
-        // we have a authToken from a signup session
+        /**
+         * we have received an authToken from a signup session
+         */ 
         if (token && /laravel_sanctum/.test(token)) {
           loginUser(token)
           return
@@ -60,9 +60,11 @@ export function App() {
         if (token) {
           loginUser(token)
           return
-        } else {
         }
         console.debug('User is not logged in')
+        /**
+         * If needed, you can redirect the user to the login page here
+         */
       }
     }
     fetchUser()
@@ -80,20 +82,20 @@ export function App() {
           <Route
             path="/"
             element={
-              !user ? (
+              !user?.email ? (
                 <div style={{ textAlign: 'center' }}>
-                  <h1>{t('React is running')}</h1>
+                  <h1>{t('React is running')}</h1><br></br>
                   <p>
                     <Link to="/signup">Signup</Link> •{' '}
                     <Link to="/login">Login</Link>
                   </p>
-                </div>
+                </div>  
               ) : (
                 <Navigate to="/home" />
               )
             }
           />
-          {user ? (
+          {user?.email ? (
             <>
               <Route path="/home" element={<Home></Home>} />
               <Route path="/logout" element={<Logout></Logout>} />
@@ -108,7 +110,7 @@ export function App() {
             path="*"
             element={
               <div style={{ textAlign: 'center' }}>
-                This route does not exists :(
+                Route not found | 404
               </div>
             }
           ></Route>
