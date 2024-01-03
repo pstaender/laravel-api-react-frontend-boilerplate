@@ -66,6 +66,16 @@ async function translateJSON(yamlFile, targetLanguages) {
       continue
     }
 
+    if (!deeplApiKey) {
+      throw Error(
+        'Please define eine env variable `DEEPL_AUTH_KEY` to use the translation feature (see https://www.deepl.com/docs-api/api-access)'
+      )
+    }
+
+    if (!translator) {
+      throw Error('Could not initialize deepl translator')
+    }
+
     const results = await translator.translateText(
       values,
       sourceLang,
@@ -75,7 +85,7 @@ async function translateJSON(yamlFile, targetLanguages) {
         ignoreTags: ['ignore'],
       }
     )
-    
+
     results.forEach((result, i) => {
       textToTranslate[i][2] = result.text
     })
@@ -98,11 +108,6 @@ let filename = process.argv[process.argv.length - 1]
 
 if (targetLanguages.length > 0) {
   console.debug(`Translate to languages: ${targetLanguages.join(', ')}`)
-  if (!deeplApiKey) {
-    throw Error(
-      'Please define eine env variable `DEEPL_AUTH_KEY` to use the translation feature (see https://www.deepl.com/docs-api/api-access)'
-    )
-  }
   let translations = await translateJSON(filename, targetLanguages)
   for (let targetLang of targetLanguages) {
     let data = {}
