@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        php: [8.1, 8.2]
+        php: [8.2, 8.3]
 
     steps:
       - name: Checkout
@@ -55,6 +55,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
+      - run: npm install
+      - run: cd frontend && npm install
+      - run: cd frontend && npm run build
+      - run: cd frontend && npm run test
