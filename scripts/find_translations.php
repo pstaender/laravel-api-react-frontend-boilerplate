@@ -6,7 +6,7 @@ $fields = [];
 
 foreach ($folders_frontend as $folder) {
     foreach (glob("$folder/{,*/,*/*/,*/*/*/}*.{js,jsx,ts,tsx}", GLOB_BRACE) as $file) {
-        $content = file_get_contents($file);
+        $content = @file_get_contents($file);
         preg_match_all('/[\W]t\([\s\n]*[\'"`](.+?)[\'"`][\s\n]*\)/', $content, $matches);
         foreach ($matches[1] as $fieldName) {
             $fields[$fieldName] = $fieldName;
@@ -15,7 +15,7 @@ foreach ($folders_frontend as $folder) {
 }
 foreach ($folders_api as $folder) {
     foreach (glob("$folder/{,*/,*/*/,*/*/*/}*.{php}", GLOB_BRACE) as $file) {
-        $content = file_get_contents($file);
+        $content = @file_get_contents($file);
         preg_match_all('/[\W]__\([\s\n]*[\'"`](.+?)[\'"`][\s\n]*\)/', $content, $matches);
         foreach ($matches[1] as $fieldName) {
             $fields[$fieldName] = $fieldName;

@@ -5,11 +5,9 @@ import {
 } from 'react-i18nify'
 import { en } from './en.json'
 
-const debug =
-  process?.env?.NODE_ENV === 'development' ||
-  window?.location?.host?.startsWith('localhost')
+const debug = import.meta.env.DEV || window?.location?.host?.startsWith('localhost')
 
-const lang = (navigator ? navigator.language : 'en').replace(/(\-.+?)$/, '')
+const lang = (navigator ? navigator.language : 'en').replace(/(-.+?)$/, '')
 
 export const translations = {
   en,

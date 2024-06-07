@@ -1,0 +1,30 @@
+{
+  "es": {
+    "React is running": "React se está ejecutando",
+    "Could not login": "No se ha podido iniciar sesión",
+    "Could not login_ Wrong Password?": "No se ha podido iniciar sesión. ¿Contraseña incorrecta?",
+    "E-Mail": "Correo electrónico",
+    "Password": "Contraseña",
+    "Your login code": "Su código de acceso",
+    "If you have signed up correctly, you have now received a login code which you can place here": "Si se ha registrado correctamente, habrá recibido un código de acceso que puede introducir aquí",
+    "We sent the login code": "Enviamos el código de acceso",
+    "Click here, if you want to use your password instead": "Haga clic aquí si desea utilizar su contraseña.",
+    "Remember login": "Recordar inicio de sesión",
+    "E-mail has already been signed up": "Ya se ha registrado el correo electrónico",
+    "Passwords do not match": "Las contraseñas no coinciden",
+    "Confirm password": "Confirmar contraseña",
+    "),this_nestingSuffix=f?p(f):m||p(": "),this.nestingSuffix=f?p(f):m|||p(",
+    ",nestingSuffix:": "nestingSuffix:",
+    "Your login code:": "Tu código de acceso:",
+    "If you did not request a login, no further action is required": "Si no ha solicitado un inicio de sesión, no es necesario realizar ninguna acción.",
+    "E-Mail already exists": "El correo electrónico ya existe",
+    "Password must be different than email": "La contraseña debe ser diferente del correo electrónico",
+    "Signup created_ Please confirm your e-mail before logging in": "Registro creado. Por favor, confirme su e-mail antes de iniciar sesión",
+    "The password did not match": "La contraseña no coincide",
+    "The provided credentials are incorrect": "Las credenciales proporcionadas son incorrectas",
+    "Please confirm your e-mail-address first": "Confirme primero su dirección de correo electrónico",
+    "If you have signed up correctly, you have now received a login code": "Si se ha registrado correctamente, habrá recibido un código de acceso.",
+    "Too many login attempts": "Demasiados intentos de inicio de sesión",
+    "Code or e-mail is invalid": "El código o el e-mail no son válidos"
+  }
+}
