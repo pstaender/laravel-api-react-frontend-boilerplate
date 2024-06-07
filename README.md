@@ -13,7 +13,7 @@ https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/14057
 
   * Laravel v10
   * React (using react-route, recoil, react-i18next and react-i18nify)
-  * Parcel v2 (bundling js, scss etc) with HMR for development
+  * VitejS (bundling js(x), scss etc) with HMR for development
   * jest for JS tests
   * github actions for php and js tests
   * unified translations for react-frontend and laravel
@@ -30,7 +30,7 @@ https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/14057
 Copy `api/.env.example` to `api/.env`, change values for your setup (name, db etc…), then:
 
 ```sh
-$ yarn install
+$ npm install
 $ cd api
 $ composer install
 $ php artisan key:generate
@@ -54,13 +54,13 @@ $ php artisan queue:table
 ## Development
 
 ```sh
-$ yarn develop
+$ npm run dev
 ```
 
 ## JavaScript production build
 
 ```sh
-$ yarn build
+$ npm run build
 ```
 
 It generates bundled production-ready frontend static files in the `/dist`-folder.
