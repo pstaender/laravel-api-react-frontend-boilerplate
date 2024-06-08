@@ -32,12 +32,13 @@ form {
         > div {
             opacity: 0.8;
         }
-        a {
+        a, .a {
             opacity: 1;
             text-decoration: none;
             color: currentColor;
             &:hover {
                 text-decoration: underline;
+                cursor: pointer;
             }
         }
     }
