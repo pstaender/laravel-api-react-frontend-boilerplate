@@ -67,10 +67,11 @@ export async function csrfCookie() {
     return await axios.get('/sanctum/csrf-cookie')
 }
 
-export async function signup({ email, password } = {}) {
+export async function signup({ email, password, name } = {}) {
     return (await axios.post('/api/v1/signup', {
         email,
         password,
+        name: name|| email.split('@')[0],
     }))?.data
 }
 

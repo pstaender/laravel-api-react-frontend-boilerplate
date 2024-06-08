@@ -97,9 +97,9 @@ export function Login() {
             ></input>
             <div className="password-info">
               <div>{t('We sent the login code')}</div>
-              <a href="#" onClick={() => setPasswordlessLogin(false)}>
+              <div className="a" onClick={() => setPasswordlessLogin(false)}>
                 {t('Click here, if you want to use your password instead')}
-              </a>
+              </div>
             </div>
           </>
         )}

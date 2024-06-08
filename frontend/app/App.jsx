@@ -1,6 +1,6 @@
 import './App.scss'
 
-import { BrowserRouter, Link, Route, Routes, Navigate } from 'react-router-dom'
+import { Link, Route, Routes, Navigate, HashRouter, useLocation, redirect } from 'react-router-dom'
 import { useAtom } from 'jotai'
 import * as api from '../lib/api'
 
@@ -16,6 +16,7 @@ import { Logout } from './components/Logout'
 
 export function App() {
   const [user, setUser] = useAtom(currentUserState)
+  const location = useLocation();
 
   useEffect(() => {
     async function loginUser(token) {
@@ -31,8 +32,8 @@ export function App() {
             `Session invalid. Clearing authtoken from local storage now and send visitor to login`
           )
           localStorage.removeItem('authToken')
-          if (window.location.pathname !== '/login') {
-            window.location.href = '/login'
+          if (location.pathname !== '/login') {
+            redirect('/login')
           }
           return
         } else {
@@ -72,7 +73,6 @@ export function App() {
 
   return (
     <div id="app">
-      <BrowserRouter>
         <Link to="/">
           <div className="logo"></div>
         </Link>
@@ -115,7 +115,6 @@ export function App() {
             }
           ></Route>
         </Routes>
-      </BrowserRouter>
     </div>
   )
 }
