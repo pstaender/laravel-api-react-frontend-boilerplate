@@ -25,6 +25,12 @@ https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/14057
   * `/frontend`: SPA js application
   * `/scripts`: script for building js app
 
+## Translations
+
+With `npm run i18n` translations will be collected from php and jsx files, and translated via deepl (ensure you have `DEEPL_AUTH_KEY` set in as env or in `.env`).
+
+You can define custom values to be used for deepl translation in `/i18/yaml/$lang.yml`. You can also define custom translations in `/i18/yaml/custom_translations.yml` which will be applied to the end of the process and will be used as final value (helpful if deepl generates inaccurate translations).
+
 ## Setup
 
 Copy `api/.env.example` to `api/.env`, change values for your setup (name, db etc…), then:

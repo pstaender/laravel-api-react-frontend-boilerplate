@@ -11,6 +11,7 @@ Route::post('/signup', function (Request $request) {
 
     $request->validate([
         'email' => 'email|required',
+        'name' => 'required',
         'password' => 'required|min:8',
     ]);
 
@@ -31,6 +32,7 @@ Route::post('/signup', function (Request $request) {
     }
     $user = User::create([
         'email' => $email,
+        'name' => $request->input('name'),
         'password' => Hash::make($request->input('password')),
         'signup_device' => $request->userAgent(),
         'signup_ip' => $request->ip(),
@@ -42,7 +44,7 @@ Route::post('/signup', function (Request $request) {
     event(new \Illuminate\Auth\Events\Registered($user));
 
     return [
-        'message' => __('Signup created. Please confirm your e-mail before logging in'),
+        'message' => __('Account created. Please confirm your e-mail before logging in'),
     ];
 });
 

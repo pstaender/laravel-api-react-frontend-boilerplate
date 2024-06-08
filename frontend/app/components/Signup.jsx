@@ -75,7 +75,8 @@ export function Signup() {
           navigate('/login?afterSignup=true')
         }
       } catch (err) {
-        alert(t('Could not login') + ': ' + err.message)
+        let message = err.response?.data?.message || err.message;
+        alert(t('Could not sign up') + ': ' + message)
         console.error(err)
       }
     }, 100)
@@ -111,7 +112,7 @@ export function Signup() {
         ></input>
 
         <button type="submit" disabled={errors.length > 0}>
-          Signup
+          {t('Sign up')}
         </button>
         <div style={{ minHeight: '4rem' }}>
           {errors &&
