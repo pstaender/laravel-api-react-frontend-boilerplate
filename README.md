@@ -27,7 +27,11 @@ https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/14057
 
 ## Setup
 
-Copy `api/.env.example` to `api/.env`, change values for your setup (name, db etc…), then:
+Copy `api/.env.example` to `api/.env` and change values according to your setup (name, db etc…).
+
+Ensure that you have access to a database and set the credentials in the `.env`-file.
+
+Then:
 
 ```sh
 $ npm install
@@ -35,7 +39,14 @@ $ cd api
 $ composer install
 $ php artisan key:generate
 $ php artisan migrate
+$ cd .. # back to root
+$ npm run i18n:setup
 ```
+
+Then start webserver and frontend server:
+
+```sh
+$ npm run dev
 
 Change for your needs:
 
@@ -65,11 +76,27 @@ $ npm run build
 
 It generates bundled production-ready frontend static files in the `/dist`-folder.
 
-## Others
+## Translaion
 
-For testing e-mails in development mailhog is recommended.
+By default, a translation via deepl is supported. Just set a `DEEPL_API_KEY` in the top `.env`-file or a as environment variable. The free deepl api key is sufficient here. All api requests are cached, so only changed values are translated.
 
-TypeScript is not enabled by default (because I'm not using it). But parcel itself supports TS, so enabling should be easy.
+Translate with:
+
+```sh
+$ npm run i18n
+```
+
+## Mailer
+
+For testing e-mails in development [mailpit](https://mailpit.axllent.org/) is recommended, set in your `/api/.env`-file:
+
+```sh
+MAIL_MAILER=smtp
+MAIL_HOST=localhost
+MAIL_PORT=1025
+```
+
+TypeScript is not enabled by default, but vite supports it.
 
 ## CORS Settings
 
@@ -92,10 +119,10 @@ This repo is (just) a boilerplate for creating projects with a laravel-driven ap
 
 Please check carefully all security related settings (CORS, database, mail etc) before deploying on production.
 
-Please also ensure that you always run on the latest possible PHP `composer update` and NodeJS `yarn update` modules :) 
+Please also ensure that you always run on the latest possible PHP `composer update` and NodeJS `npm update` modules :)
 
+# TODOs
 
 * REMOVE i18n-react
 * api docs
 * set expire date of tokens
-

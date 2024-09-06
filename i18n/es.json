@@ -13,8 +13,6 @@
     "E-mail has already been signed up": "Ya se ha registrado el correo electrónico",
     "Passwords do not match": "Las contraseñas no coinciden",
     "Confirm password": "Confirmar contraseña",
-    "),this_nestingSuffix=f?p(f):m||p(": "),this.nestingSuffix=f?p(f):m|||p(",
-    ",nestingSuffix:": "nestingSuffix:",
     "Your login code:": "Tu código de acceso:",
     "If you did not request a login, no further action is required": "Si no ha solicitado un inicio de sesión, no es necesario realizar ninguna acción.",
     "E-Mail already exists": "El correo electrónico ya existe",

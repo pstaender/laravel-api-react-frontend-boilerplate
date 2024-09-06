@@ -118,15 +118,5 @@
   "en:nl:Please confirm your e-mail-address first": "Bevestig eerst je e-mailadres",
   "en:nl:If you have signed up correctly, you have now received a login code": "Als je je correct hebt aangemeld, heb je nu een inlogcode ontvangen",
   "en:nl:Too many login attempts": "Te veel aanmeldpogingen",
-  "en:nl:Code or e-mail is invalid": "Code of e-mail is ongeldig",
-  "en:de:),this_nestingSuffix=f?p(f):m||p(": "),this.nestingSuffix=f?p(f):m||p(",
-  "en:de:,nestingSuffix:": ",nestingSuffix:",
-  "en:fr:),this_nestingSuffix=f?p(f):m||p(": "),this.nestingSuffix=f?p(f):m||p(",
-  "en:fr:,nestingSuffix:": ",nestingSuffix :",
-  "en:es:),this_nestingSuffix=f?p(f):m||p(": "),this.nestingSuffix=f?p(f):m|||p(",
-  "en:es:,nestingSuffix:": "nestingSuffix:",
-  "en:it:),this_nestingSuffix=f?p(f):m||p(": "), this.nestingSuffix=f?p(f):m||p(",
-  "en:it:,nestingSuffix:": ", nestingSuffix:",
-  "en:nl:),this_nestingSuffix=f?p(f):m||p(": "),this.nestingSuffix=f?p(f):m||p(",
-  "en:nl:,nestingSuffix:": "nestingSuffix:"
+  "en:nl:Code or e-mail is invalid": "Code of e-mail is ongeldig"
 }
