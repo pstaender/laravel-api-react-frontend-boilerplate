@@ -11,7 +11,7 @@ export function Login() {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [loginCode, setLoginCode] = useState(null)
-  const [passwordlessLogin, setPasswordlessLogin] = useState(true)
+  const [passwordlessLogin, setPasswordlessLogin] = useState(false)
   const [rememberLogin, setRememberLogin] = useState(true)
   const [showCodeInput, setShowCodeInput] = useState(false)
   const [, setUser] = useAtom(currentUserState)
@@ -71,14 +71,27 @@ export function Login() {
           autoComplete="username"
         ></input>
         {!passwordlessLogin && (
-          <input
-            type="password"
-            required={true}
-            placeholder={t('Password')}
-            autoComplete="current-password"
-            autoFocus={true}
-            onChange={(ev) => setPassword(ev.target.value)}
-          ></input>
+          <>
+            <input
+              type="password"
+              required={true}
+              placeholder={t('Password')}
+              autoComplete="current-password"
+              onChange={(ev) => setPassword(ev.target.value)}
+            ></input>
+            <div className="password-info">
+              <a
+                href="#"
+                style={{ color: 'currentColor' }}
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  setPasswordlessLogin(true)
+                }}
+              >
+                Do you want to login without a password instead?
+              </a>
+            </div>
+          </>
         )}
         {passwordlessLogin && showCodeInput && (
           <>
