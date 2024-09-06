@@ -50,7 +50,7 @@ $ npm run dev
 
 Change for your needs:
 
-  * routes in `api/routes/web.php`
+  * routes in `api/routes/web.php`, `api/routes/api.php` and `api/bootstrap/app.php`
   * e-mail-templates `api/resources/views/emails`
   * change logo(s) `/logo.svg` and `/logo.webp`
   * Set your frontend domain url `FRONTEND_URL` in the laravel `.env`-files

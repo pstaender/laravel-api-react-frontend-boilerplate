@@ -20,13 +20,20 @@ use App\Http\Resources\UserResource;
 */
 
 Route::group(['prefix' => 'v1'], function () {
-
     require_once __DIR__ . '/signup_routes.php';
     require_once __DIR__ . '/forgot_password_routes.php';
     require_once __DIR__ . '/logout_routes.php';
     require_once __DIR__ . '/delete_user_account_routes.php';
 
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    Route::get('/healthz', function (Request $request) {
+        // count users as db health check
+        User::count();
+        return ['status' => 'ok'];
+    });
+
+    Route::middleware('auth:sanctum')->get('/user', function (
+        Request $request
+    ) {
         return $request->user();
     });
 });
