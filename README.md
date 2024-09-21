@@ -76,7 +76,7 @@ $ npm run build
 
 It generates bundled production-ready frontend static files in the `/dist`-folder.
 
-## Translaion
+## Translations
 
 By default, a translation via deepl is supported. Just set a `DEEPL_API_KEY` in the top `.env`-file or a as environment variable. The free deepl api key is sufficient here. All api requests are cached, so only changed values are translated.
 
@@ -85,6 +85,8 @@ Translate with:
 ```sh
 $ npm run i18n
 ```
+
+You can define custom values to be used for deepl translation in `/i18/yaml/$lang.yml`. You can also define custom translations in `/i18/yaml/custom_translations.yml` which will be applied to the end of the process and will be used as final value (helpful if deepl generates inaccurate translations).
 
 ## Mailer
 

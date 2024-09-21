@@ -88,7 +88,7 @@ export function Login() {
                   setPasswordlessLogin(true)
                 }}
               >
-                Do you want to login without a password instead?
+                {t('Do you want to login without password?')}
               </a>
             </div>
           </>
@@ -109,7 +109,9 @@ export function Login() {
               onChange={(ev) => setLoginCode(ev.target.value)}
             ></input>
             <div className="password-info">
-              <div>{t('We sent the login code')}</div>
+              <div>
+                <b>{t('Login code sent, please check your e-mail')}.</b>
+              </div>
               <div className="a" onClick={() => setPasswordlessLogin(false)}>
                 {t('Click here, if you want to use your password instead')}
               </div>
@@ -117,7 +119,7 @@ export function Login() {
           </>
         )}
         <div className="checkbox">
-          <label htmlFor="remember-login">{t('Remember login')}</label>
+          <label htmlFor="remember-login">{t('Remember log in')}</label>
           <input
             type="checkbox"
             id="remember-login"
@@ -126,7 +128,11 @@ export function Login() {
           ></input>
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit">
+          {passwordlessLogin && !showCodeInput
+            ? t('Send login code via E-Mail')
+            : t('Log in')}
+        </button>
       </fieldset>
     </form>
   )

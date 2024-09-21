@@ -9,8 +9,11 @@
   "scripts": {
     "dev": "(trap 'kill 0' SIGINT; (cd api && composer start) & (cd frontend && npm run dev))",
     "kill-ports": "npx kill-port 8000; npx kill-port 5173;",
-    "i18n": "npm run i18n:setup; for lang in de fr es it nl; do php scripts/find_translations.php > i18n/$lang.json; node scripts/translate.mjs --lang=$lang i18n/$lang.json; done; npm run i18n:setup;",
-    "i18n:setup": "php scripts/find_translations.php > i18n/en.json; mv i18n/en.json frontend/i18n/"
+    "i18n:collect": "node scripts/find_translations.mjs -- $(find ./frontend/app -type f \\( -name '*.js' -o -name '*.jsx' -o -name '*.ts' -o -name '*.tsx' -o -name '*.mjs' \\)) $(find ./api/app -type f \\( -name '*.php' \\)) $(find ./api/routes -type f \\( -name '*.php' \\)) > i18n/en.json",
+    "i18n:merge": "node scripts/merge_all_json_files.mjs -- ./i18n/*.json > frontend/i18n/translations.json",
+    "i18n": "npm run i18n:collect; for lang in de fr es it nl; do node scripts/translate.mjs --targetLanguages=$lang --sourceLanguage=en i18n/en.json; done; npm run i18n:merge",
+    "_i18n": "npm run i18n:setup; for lang in de fr es it nl; do php scripts/find_translations.php > i18n/$lang.json; node scripts/translate.mjs --lang=$lang i18n/$lang.json; done; npm run i18n:setup;",
+    "_i18n:setup": "php scripts/find_translations.php > i18n/en.json; mv i18n/en.json frontend/i18n/"
   },
   "dependencies": {
     "deepl-node": "^1.13.1",
