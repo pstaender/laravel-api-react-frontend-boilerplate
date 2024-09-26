@@ -57,7 +57,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: 'echo ''{"en": {}}'' > frontend/i18n/en.json'
-      - run: npm run i18n
+      - run: npm run i18n:translate
       - run: cd frontend && npm install
       - run: cd frontend && npm run build
       - run: cd frontend && npm run test
