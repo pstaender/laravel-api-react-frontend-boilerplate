@@ -28,7 +28,14 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/healthz', function (Request $request) {
         // count users as db health check
         User::count();
-        return ['status' => 'ok'];
+        if ($request->get('locale')) {
+            // this for "testing" the translations
+            App::setLocale($request->get('locale'));
+        }
+        return [
+            'status' => 'ok',
+            'message' => __('Welcome :name!', ["name" => $request->ip()]) . ' ' . __('Service is running. Grap a tea and relax.')
+        ];
     });
 
     Route::middleware('auth:sanctum')->get('/user', function (

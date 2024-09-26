@@ -88,6 +88,8 @@ $ npm run i18n
 
 You can define custom values to be used for deepl translation in `/i18/yaml/$lang.yml`. You can also define custom translations in `/i18/yaml/custom_translations.yml` which will be applied to the end of the process and will be used as final value (helpful if deepl generates inaccurate translations).
 
+Use placeholders as recommended by `react-i18nify`: `Hello, %{name}!` will be automatically transformed to a laravel compatible `'Hello, :name!`-placeholder.
+
 ## Mailer
 
 For testing e-mails in development [mailpit](https://mailpit.axllent.org/) is recommended, set in your `/api/.env`-file:

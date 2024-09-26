@@ -35,12 +35,33 @@ for (let file of files) {
   const content = await fs.readFile(file, 'utf-8')
   let pattern =
     ext.toLowerCase() === '.php'
-      ? /[\W]__\([\s\n]*[\'"`](.+?)[\'"`][\s\n]*\)/g
-      : /[\W]t\([\s\n]*[\'"`](.+?)[\'"`][\s\n]*\)/g
-  // console.debug(file);
+      ? /[\W]__\([\s\n]*[\'"`](.+?)[\'"`][\s\n]*[\),]/g
+      : /[\W]t\([\s\n]*[\'"`](.+?)[\'"`][\s\n]*[\),]/g
+  // console.error({ file, result: [...content.matchAll(pattern)] })
   for (let match of content.matchAll(pattern)) {
-    // replace all dots with underscores
-    fields[match[1].replace(/\./g, '_')] = match[1]
+    fields[match[1]] = match[1]
+    // replace all dots with underscores, required by i18n react
+    if (fields[match[1].replace(/\./g, '_')] === undefined) {
+      fields[match[1].replace(/\./g, '_')] = match[1]
+    }
+    // transform :placeholder to %{placeholder} for laravel
+    const laravelToI18nifyPlaceholder = /(:)([a-zA-Z0-9_]+)/g
+    let i18nifyKey = match[1].replace(laravelToI18nifyPlaceholder, '%{$2}')
+    if (fields[i18nifyKey] === undefined) {
+      fields[i18nifyKey] = match[1].replace(
+        laravelToI18nifyPlaceholder,
+        '%{$2}'
+      )
+    }
+    // transform %{placeholder} to :placeholder for laravel
+    const i18nifyToLaravelPlaceholder = /(%)[\{]*([a-zA-Z0-9_]+)[\}]*/g
+    let laravelI18nKey = match[1].replace(i18nifyToLaravelPlaceholder, ':$2')
+    if (fields[laravelI18nKey] === undefined) {
+      fields[laravelI18nKey] = match[1].replace(
+        i18nifyToLaravelPlaceholder,
+        ':$2'
+      )
+    }
   }
 }
 

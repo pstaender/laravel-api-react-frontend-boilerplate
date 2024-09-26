@@ -58,10 +58,11 @@ async function translateJSON(yamlFile, targetLanguages) {
     let texts = []
     translations[targetLang] = {}
     for (let key in obj[sourceLanguage]) {
-      let val = obj[sourceLanguage][key].replace(
-        /\%\{(.+?)}/,
-        '<ignore>$1</ignore>'
-      )
+      let val = obj[sourceLanguage][key]
+        // i18nify placeholder
+        .replace(/(\%\{.+?})/g, '<ignore>$1</ignore>')
+        // laravel placetholder
+        .replace(/(\:[a-zA-Z0-9_]+)/g, '<ignore>$1</ignore>')
 
       texts.push([key, val])
     }
@@ -111,7 +112,7 @@ async function translateJSON(yamlFile, targetLanguages) {
     })
     textToTranslate.forEach((v) => {
       let cacheKey = `${sourceLanguage}:${targetLang}:${v[0]}`
-      let translation = v[2].replace(/<ignore>(.+?)<\/ignore>/, '%{$1}')
+      let translation = v[2].replace(/<ignore>(.+?)<\/ignore>/, '$1')
       translations[targetLang][v[0]] = deeplCache[cacheKey] = translation
     })
   }

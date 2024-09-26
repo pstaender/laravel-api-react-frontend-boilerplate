@@ -1,6 +1,7 @@
 {
   "en": {
     "E-mail has already been signed up": "E-mail has already been signed up",
+    "Your password must have at least $chars characters": "Your password must have at least $chars characters",
     "Passwords do not match": "Passwords do not match",
     "Could not sign up": "Could not sign up",
     "E-Mail": "E-Mail",
@@ -8,6 +9,7 @@
     "Confirm password": "Confirm password",
     "Sign up": "Sign up",
     "Could not login": "Could not login",
+    "Could not login. Wrong Password?": "Could not login. Wrong Password?",
     "Could not login_ Wrong Password?": "Could not login. Wrong Password?",
     "Do you want to login without password?": "Do you want to login without password?",
     "Your login code": "Your login code",
@@ -17,17 +19,26 @@
     "Remember log in": "Remember log in",
     "Send login code via E-Mail": "Send login code via E-Mail",
     "Log in": "Log in",
+    "Welcome %{name}!": "Welcome %{name}!",
+    "Welcome :name!": "Welcome :name!",
     "React is running": "React is running",
+    "The provided password does not match your current password.": "The provided password does not match your current password.",
+    "The provided password does not match your current password_": "The provided password does not match your current password.",
     "Your login code:": "Your login code:",
+    "The code is valid for :minutes minutes": "The code is valid for :minutes minutes",
+    "The code is valid for %{minutes} minutes": "The code is valid for %{minutes} minutes",
     "If you did not request a login, no further action is required": "If you did not request a login, no further action is required",
     "The password did not match": "The password did not match",
     "E-Mail already exists": "E-Mail already exists",
     "Password must be different than email": "Password must be different than email",
+    "Account created. Please confirm your e-mail before logging in": "Account created. Please confirm your e-mail before logging in",
     "Account created_ Please confirm your e-mail before logging in": "Account created. Please confirm your e-mail before logging in",
     "The provided credentials are incorrect": "The provided credentials are incorrect",
     "Please confirm your e-mail-address first": "Please confirm your e-mail-address first",
     "If you have signed up correctly, you have now received a login code": "If you have signed up correctly, you have now received a login code",
     "Too many login attempts": "Too many login attempts",
-    "Code or e-mail is invalid": "Code or E-Mail is invalid"
+    "Code or e-mail is invalid": "Code or E-Mail is invalid",
+    "Service is running. Grap a tea and relax.": "Service is running. Grap a tea and relax.",
+    "Service is running_ Grap a tea and relax_": "Service is running. Grap a tea and relax."
   }
 }
