@@ -36,6 +36,10 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+        'signup_device',
+        'signup_ip',
     ];
 
     /**
@@ -55,6 +59,10 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function validLoginCodes()
     {
-        return $this->hasMany(LoginCode::class, 'user_id')->whereTime('valid_until', '>=', \Carbon\Carbon::now());
+        return $this->hasMany(LoginCode::class, 'user_id')->whereTime(
+            'valid_until',
+            '>=',
+            \Carbon\Carbon::now()
+        );
     }
 }
