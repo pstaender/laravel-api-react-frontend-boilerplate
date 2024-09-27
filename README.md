@@ -48,6 +48,7 @@ Then start webserver and frontend server:
 
 ```sh
 $ npm run dev
+```
 
 Change for your needs:
 
