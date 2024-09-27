@@ -18,6 +18,7 @@ https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/14057
   * github actions for php and js tests
   * unified translations for react-frontend and laravel
   * optional: passwordless login otps via e-mail
+  * optional: 2fa via laravel fortify
 
 ## Folder Structure
 
@@ -27,7 +28,11 @@ https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/14057
 
 ## Setup
 
-Copy `api/.env.example` to `api/.env`, change values for your setup (name, db etc…), then:
+Copy `api/.env.example` to `api/.env` and change values according to your setup (name, db etc…).
+
+Ensure that you have access to a database and set the credentials in the `.env`-file.
+
+Then:
 
 ```sh
 $ npm install
@@ -35,11 +40,18 @@ $ cd api
 $ composer install
 $ php artisan key:generate
 $ php artisan migrate
+$ cd .. # back to root
+$ npm run i18n:setup
 ```
+
+Then start webserver and frontend server:
+
+```sh
+$ npm run dev
 
 Change for your needs:
 
-  * routes in `api/routes/web.php`
+  * routes in `api/routes/web.php`, `api/routes/api.php` and `api/bootstrap/app.php`
   * e-mail-templates `api/resources/views/emails`
   * change logo(s) `/logo.svg` and `/logo.webp`
   * Set your frontend domain url `FRONTEND_URL` in the laravel `.env`-files
@@ -65,11 +77,42 @@ $ npm run build
 
 It generates bundled production-ready frontend static files in the `/dist`-folder.
 
-## Others
+## Translations
 
-For testing e-mails in development mailhog is recommended.
+By default, a translation via deepl is supported. Just set a `DEEPL_API_KEY` in the top `.env`-file or a as environment variable. The free deepl api key is sufficient here. All api requests are cached, so only changed values are translated.
 
-TypeScript is not enabled by default (because I'm not using it). But parcel itself supports TS, so enabling should be easy.
+Translate with:
+
+```sh
+$ npm run i18n
+```
+
+You can define custom values to be used for deepl translation in `/i18/yaml/$lang.yml`. You can also define custom translations in `/i18/yaml/custom_translations.yml` which will be applied to the end of the process and will be used as final value (helpful if deepl generates inaccurate translations).
+
+Use the i18nify placeholder is frontend `Hello, %{name}!` and the laravel-placeholder `Hello, :name!` in the api.
+
+## Two-Factor-Authentication
+
+There are two 2fa possible:
+
+  * send a OTP via e-mail (the password is not needed in this case)
+  * use user password and 2fa OTP via authenticator app (recommended)
+
+Please do not enable both at the same time, the login process is not designed for this. If you want to use both, you have to adjust the login process.
+
+To disable OTP 2fa (it's enabled by default) remove `TwoFactorAuthenticatable` from `User`-model.
+
+## Mailer
+
+For testing e-mails in development [mailpit](https://mailpit.axllent.org/) is recommended, set in your `/api/.env`-file:
+
+```sh
+MAIL_MAILER=smtp
+MAIL_HOST=localhost
+MAIL_PORT=1025
+```
+
+TypeScript is not enabled by default, but vite supports it.
 
 ## CORS Settings
 
@@ -92,10 +135,10 @@ This repo is (just) a boilerplate for creating projects with a laravel-driven ap
 
 Please check carefully all security related settings (CORS, database, mail etc) before deploying on production.
 
-Please also ensure that you always run on the latest possible PHP `composer update` and NodeJS `yarn update` modules :) 
+Please also ensure that you always run on the latest possible PHP `composer update` and NodeJS `npm update` modules :)
 
+# TODOs
 
 * REMOVE i18n-react
 * api docs
 * set expire date of tokens
-

@@ -8,12 +8,10 @@ use Illuminate\Support\HtmlString;
 
 class PasswordlessLogin extends Notification
 {
-
     public function __construct(
         private string $code,
         private int $validInMinutes
-    )
-    {
+    ) {
         //
     }
 
@@ -36,8 +34,6 @@ class PasswordlessLogin extends Notification
      */
     public function toMail($notifiable)
     {
-
-
         return $this->buildMailMessage();
     }
 
@@ -49,15 +45,22 @@ class PasswordlessLogin extends Notification
      */
     protected function buildMailMessage()
     {
-        $style = "padding: 2rem 4rem; display: block; text-align: center; font-size: 2rem; background: #000; color: #fff; border-radius: 5px; letter-spacing: 0.5rem;";
-        return (new MailMessage)
+        $style =
+            'padding: 2rem 4rem; display: block; text-align: center; font-size: 2rem; background: #000; color: #fff; border-radius: 5px; letter-spacing: 0.5rem;';
+        return (new MailMessage())
             ->subject(__('Your login code'))
             ->greeting(__('Your login code:'))
             ->line(new HtmlString("<h1 style=\"$style\">$this->code</h1>"))
-            ->line(__('The code is valid for $minutes minutes', ['minutes' => $this->validInMinutes]))
+            ->line(
+                __('The code is valid for :minutes minutes', [
+                    'minutes' => $this->validInMinutes,
+                ])
+            )
             // ->action(Lang::get('Verify Email Address'), $url)
-            ->line(__('If you did not request a login, no further action is required'));
+            ->line(
+                __(
+                    'If you did not request a login, no further action is required'
+                )
+            );
     }
-
-
 }

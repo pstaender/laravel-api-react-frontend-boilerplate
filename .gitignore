@@ -1,10 +1,15 @@
 /node_modules/
+
 /frontend/i18n/*.json
+
 .env
 .env.development.local
 .env.test.local
 .env.production.local
 .env.local
+
+/package-lock.json
+#/api/composer.lock
 
 # Editor directories and files
 .vscode/*

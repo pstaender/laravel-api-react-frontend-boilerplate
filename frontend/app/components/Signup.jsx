@@ -62,7 +62,11 @@ export function Signup() {
     ev.preventDefault()
     // the timeouts ensures to start the request after the basic useEffect validations
     setTimeout(async () => {
-      if (Object.keys(errors).map((k) => errors[k]).filter(e => !!e).length > 0) {
+      if (
+        Object.keys(errors)
+          .map((k) => errors[k])
+          .filter((e) => !!e).length > 0
+      ) {
         return
       }
       try {
@@ -75,7 +79,8 @@ export function Signup() {
           navigate('/login?afterSignup=true')
         }
       } catch (err) {
-        alert(t('Could not login') + ': ' + err.message)
+        let message = err.response?.data?.message || err.message
+        alert(`${t('Could not sign up')}: ${message}`)
         console.error(err)
       }
     }, 100)
@@ -111,13 +116,13 @@ export function Signup() {
         ></input>
 
         <button type="submit" disabled={errors.length > 0}>
-          Signup
+          {t('Sign up')}
         </button>
         <div style={{ minHeight: '4rem' }}>
           {errors &&
-            Object.keys(errors).map((k) => errors[k] ? (
-              <p key={`error-${k}`}>{errors[k]}</p>
-            ) : null)}
+            Object.keys(errors).map((k) =>
+              errors[k] ? <p key={`error-${k}`}>{errors[k]}</p> : null
+            )}
         </div>
       </fieldset>
     </form>

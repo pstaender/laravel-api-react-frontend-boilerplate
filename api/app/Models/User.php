@@ -7,12 +7,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +36,10 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+        'signup_device',
+        'signup_ip',
     ];
 
     /**
@@ -54,6 +59,10 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function validLoginCodes()
     {
-        return $this->hasMany(LoginCode::class, 'user_id')->whereTime('valid_until', '>=', \Carbon\Carbon::now());
+        return $this->hasMany(LoginCode::class, 'user_id')->whereTime(
+            'valid_until',
+            '>=',
+            \Carbon\Carbon::now()
+        );
     }
 }

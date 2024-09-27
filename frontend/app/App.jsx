@@ -1,6 +1,13 @@
 import './App.scss'
 
-import { BrowserRouter, Link, Route, Routes, Navigate } from 'react-router-dom'
+import {
+  Link,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+  redirect,
+} from 'react-router-dom'
 import { useAtom } from 'jotai'
 import * as api from '../lib/api'
 
@@ -13,9 +20,11 @@ import { Signup } from './components/Signup'
 import { Login } from './components/Login'
 import { Home } from './components/Home'
 import { Logout } from './components/Logout'
+import { TwoFactorAuth } from './components/TwoFactorAuth'
 
 export function App() {
   const [user, setUser] = useAtom(currentUserState)
+  const location = useLocation()
 
   useEffect(() => {
     async function loginUser(token) {
@@ -31,15 +40,15 @@ export function App() {
             `Session invalid. Clearing authtoken from local storage now and send visitor to login`
           )
           localStorage.removeItem('authToken')
-          if (window.location.pathname !== '/login') {
-            window.location.href = '/login'
+          if (location.pathname !== '/login') {
+            redirect('/login')
           }
           return
         } else {
           throw e
         }
       }
-      setUser({ email: user.email })
+      setUser({ email: user.email, two_factor_confirmed_at: user.two_factor_confirmed_at })
       console.debug(`Logged in as ${user.email}`)
     }
 
@@ -49,7 +58,7 @@ export function App() {
 
         /**
          * we have received an authToken from a signup session
-         */ 
+         */
         if (token && /laravel_sanctum/.test(token)) {
           loginUser(token)
           return
@@ -72,50 +81,48 @@ export function App() {
 
   return (
     <div id="app">
-      <BrowserRouter>
-        <Link to="/">
-          <div className="logo"></div>
-        </Link>
+      <Link to="/">
+        <div className="logo"></div>
+      </Link>
 
-        <Routes>
-          <Route path="/about" element={<Navigate to="/signup" />} />
-          <Route
-            path="/"
-            element={
-              !user?.email ? (
-                <div style={{ textAlign: 'center' }}>
-                  <h1>{t('React is running')}</h1><br></br>
-                  <p>
-                    <Link to="/signup">Signup</Link> •{' '}
-                    <Link to="/login">Login</Link>
-                  </p>
-                </div>  
-              ) : (
-                <Navigate to="/home" />
-              )
-            }
-          />
-          {user?.email ? (
-            <>
-              <Route path="/home" element={<Home></Home>} />
-              <Route path="/logout" element={<Logout></Logout>} />
-            </>
-          ) : (
-            <>
-              <Route path="/signup" element={<Signup></Signup>} />
-              <Route path="/login" element={<Login></Login>} />
-            </>
-          )}
-          <Route
-            path="*"
-            element={
+      <Routes>
+        <Route path="/about" element={<Navigate to="/signup" />} />
+        <Route
+          path="/"
+          element={
+            !user?.email ? (
               <div style={{ textAlign: 'center' }}>
-                Route not found | 404
+                <h1>{t('React is running')}</h1>
+                <br></br>
+                <p>
+                  <Link to="/signup">Signup</Link> •{' '}
+                  <Link to="/login">Login</Link>
+                </p>
               </div>
-            }
-          ></Route>
-        </Routes>
-      </BrowserRouter>
+            ) : (
+              <Navigate to="/home" />
+            )
+          }
+        />
+        {user?.email ? (
+          <>
+            <Route path="/home" element={<Home />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/setup-2fa" element={<TwoFactorAuth />} />
+          </>
+        ) : (
+          <>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+          </>
+        )}
+        <Route
+          path="*"
+          element={
+            <div style={{ textAlign: 'center' }}>Route not found | 404</div>
+          }
+        ></Route>
+      </Routes>
     </div>
   )
 }

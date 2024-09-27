@@ -1,16 +1,23 @@
 {
   "name": "app",
   "version": "1.0.0",
-  "author": "Your name",
+  "author": "Your Name <your@email>",
   "private": true,
-  "devDependencies": {
-    "@parcel/transformer-sass": "^2.10.3",
-    "buffer": "^5.5.0||^6.0.0",
-    "jest": "^29.7.0",
-    "js-yaml": "^4.1.0"
+  "engines": {
+    "node": ">=20"
   },
   "scripts": {
-    "develop": "(trap 'kill 0' SIGINT; (cd frontend && npm run dev) & (cd api && composer start))",
-    "i18n": "for lang in de fr es it nl; do php scripts/find_translations.php > i18n/$lang.json; node scripts/translate.mjs --lang=$lang i18n/$lang.json; done;"
+    "dev": "(trap 'kill 0' SIGINT; (cd api && composer start) & (cd frontend && npm run dev))",
+    "kill-ports": "npx kill-port 8000; npx kill-port 5173;",
+    "i18n:collect": "node scripts/find_translations.mjs -- $(find ./frontend/app -type f \\( -name '*.js' -o -name '*.jsx' -o -name '*.ts' -o -name '*.tsx' -o -name '*.mjs' \\)) $(find ./api/app -type f \\( -name '*.php' \\)) $(find ./api/routes -type f \\( -name '*.php' \\)) > i18n/en.json",
+    "i18n:merge": "node scripts/merge_all_json_files.mjs -- ./i18n/*.json > frontend/i18n/translations.json",
+    "i18n:translate": "npm run i18n:collect; for lang in de fr es it nl; do node scripts/translate.mjs --targetLanguages=$lang --sourceLanguage=en i18n/en.json; php scripts/convert_i18n_json_to_laravel.php i18n/$lang.json > api/lang/$lang.json; done; npm run i18n:merge;",
+    "i18n": "npm run i18n:translate; cd api && composer run i18n"
+  },
+  "dependencies": {
+    "deepl-node": "^1.13.1",
+    "dotenv": "^16.4.5",
+    "js-yaml": "^4.1.0",
+    "kill-port": "^2.0.1"
   }
 }

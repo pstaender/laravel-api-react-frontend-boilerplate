@@ -11,37 +11,58 @@ const cacheDeepl = true
 const __dirname = path.dirname(fileURLToPath(new URL(import.meta.url)))
 
 let deeplCache = JSON.parse(await fs.readFile(__dirname + '/deepl_cache.json'))
+
+const deeplApiKey = process.env['DEEPL_AUTH_KEY']
+
+let sourceLanguage = null
+let targetLanguages = null
+let customTranslationYaml = __dirname + '/../i18n/yaml/custom_translations.yml'
+
+for (let arg of process.argv) {
+  if (arg.startsWith('--sourceLanguage=')) {
+    sourceLanguage = arg.split('=')[1]
+  }
+  if (arg.startsWith('--targetLanguages=')) {
+    targetLanguages = arg.split('=')[1].split(',')
+  }
+}
+
+if (!targetLanguages || targetLanguages.length === 0) {
+  console.error(
+    'Please specify target language(s), e.g. --targetLanguages=de,fr,es'
+  )
+  process.exit(1)
+}
+
+if (!sourceLanguage) {
+  console.error('Please specify source language, e.g. --sourceLanguage=en')
+  process.exit(1)
+}
+
 let customTranslations = yaml.load(
-  await fs.readFile(__dirname + '/../i18n/custom_translations.yml', {
+  await fs.readFile(customTranslationYaml, {
     encoding: 'utf-8',
   })
 )
 
-const deeplApiKey = process.env['DEEPL_AUTH_KEY']
-const targetLanguages =
-  process.argv
-    .filter((v) => v.startsWith('--lang='))
-    .map((v) => v.substring(7))[0]
-    ?.split(',')
-    .map((v) => v.toLowerCase()) || []
 const translator = deeplApiKey ? new deepl.Translator(deeplApiKey) : null
 
 async function translateJSON(yamlFile, targetLanguages) {
   const obj = JSON.parse(await fs.readFile(yamlFile, { encoding: 'utf-8' }))
-  const sourceLang = Object.keys(obj)[0]
   const translations = {}
   for (let targetLang of targetLanguages) {
-    if (targetLang === sourceLang) {
+    if (targetLang === sourceLanguage) {
       continue
     }
 
     let texts = []
     translations[targetLang] = {}
-    for (let key in obj[sourceLang]) {
-      let val = obj[sourceLang][key].replace(
-        /\%\{(.+?)}/,
-        '<ignore>$1</ignore>'
-      )
+    for (let key in obj[sourceLanguage]) {
+      let val = obj[sourceLanguage][key]
+        // i18nify placeholder
+        .replace(/(\%\{.+?})/g, '<ignore>$1</ignore>')
+        // laravel placetholder
+        .replace(/(\:[a-zA-Z0-9_]+)/g, '<ignore>$1</ignore>')
 
       texts.push([key, val])
     }
@@ -51,7 +72,7 @@ async function translateJSON(yamlFile, targetLanguages) {
     let textToTranslate = []
 
     for (let text of texts) {
-      let cacheKey = `${sourceLang}:${targetLang}:${text[0]}`
+      let cacheKey = `${sourceLanguage}:${targetLang}:${text[0]}`
       if (cacheDeepl && deeplCache[cacheKey]) {
         translations[targetLang][text[0]] = deeplCache[cacheKey]
         continue
@@ -78,7 +99,7 @@ async function translateJSON(yamlFile, targetLanguages) {
 
     const results = await translator.translateText(
       values,
-      sourceLang,
+      sourceLanguage,
       targetLang,
       {
         tagHandling: 'xml',
@@ -90,8 +111,8 @@ async function translateJSON(yamlFile, targetLanguages) {
       textToTranslate[i][2] = result.text
     })
     textToTranslate.forEach((v) => {
-      let cacheKey = `${sourceLang}:${targetLang}:${v[0]}`
-      let translation = v[2].replace(/<ignore>(.+?)<\/ignore>/, '%{$1}')
+      let cacheKey = `${sourceLanguage}:${targetLang}:${v[0]}`
+      let translation = v[2].replace(/<ignore>(.+?)<\/ignore>/, '$1')
       translations[targetLang][v[0]] = deeplCache[cacheKey] = translation
     })
   }
@@ -106,9 +127,15 @@ async function translateJSON(yamlFile, targetLanguages) {
 
 let filename = process.argv[process.argv.length - 1]
 
+if (!filename.toLowerCase().endsWith('.json')) {
+  console.error('Please specify a JSON file to translate as last argument')
+  process.exit(1)
+}
+
 if (targetLanguages.length > 0) {
-  console.debug(`Translate to languages: ${targetLanguages.join(', ')}`)
+  console.debug(`\n\nTranslate to languages: ${targetLanguages.join(', ')}`)
   let translations = await translateJSON(filename, targetLanguages)
+
   for (let targetLang of targetLanguages) {
     let data = {}
     // mergin custom translations back

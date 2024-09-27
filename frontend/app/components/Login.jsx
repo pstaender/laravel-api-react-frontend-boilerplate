@@ -11,9 +11,11 @@ export function Login() {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [loginCode, setLoginCode] = useState(null)
-  const [passwordlessLogin, setPasswordlessLogin] = useState(true)
+  const [passwordlessLogin, setPasswordlessLogin] = useState(false)
   const [rememberLogin, setRememberLogin] = useState(true)
   const [showCodeInput, setShowCodeInput] = useState(false)
+  const [showTwoFactorOTPInput, setShowTwoFactorOTPInput] = useState(false)
+  const [twoFactorOTP, setTwoFactorOTP] = useState(null)
   const [, setUser] = useAtom(currentUserState)
   const navigate = useNavigate()
 
@@ -30,7 +32,17 @@ export function Login() {
         }
         token = await api.passwordlessLoginReceiveToken(email, loginCode)
       } else {
-        token = await api.receiveAuthToken(email, password)
+        token = await api.receiveAuthToken(email, password, {
+          otp: twoFactorOTP,
+        })
+        if (token['2fa_otp_required_for_login']) {
+          alert(
+            token['2fa_login_message'] ||
+              t('2fa enabled. Please use the code from your authenticator app')
+          )
+          setShowTwoFactorOTPInput(true)
+          return
+        }
       }
 
       if (token) {
@@ -39,7 +51,10 @@ export function Login() {
           rememberLogin ? localStorage : sessionStorage
         )
         const user = await api.user()
-        setUser({ email: user.email })
+        setUser({
+          email: user.email,
+          two_factor_confirmed_at: user.two_factor_confirmed_at,
+        })
         navigate('/home')
       }
     } catch (e) {
@@ -70,15 +85,41 @@ export function Login() {
           onChange={(ev) => setEmail(ev.target.value)}
           autoComplete="username"
         ></input>
-        {!passwordlessLogin && (
-          <input
-            type="password"
-            required={true}
-            placeholder={t('Password')}
-            autoComplete="current-password"
-            autoFocus={true}
-            onChange={(ev) => setPassword(ev.target.value)}
-          ></input>
+        {showTwoFactorOTPInput && (
+          <>
+            <input
+              type="password"
+              maxLength={6}
+              inputMode="numeric"
+              required={true}
+              placeholder={t('Your 2FA OTP code')}
+              autoComplete="one-time-code"
+              onChange={(ev) => setTwoFactorOTP(ev.target.value)}
+            ></input>
+          </>
+        )}
+        {!showTwoFactorOTPInput && !passwordlessLogin && (
+          <>
+            <input
+              type="password"
+              required={true}
+              placeholder={t('Password')}
+              autoComplete="current-password"
+              onChange={(ev) => setPassword(ev.target.value)}
+            ></input>
+            <div className="password-info">
+              <a
+                href="#"
+                style={{ color: 'currentColor' }}
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  setPasswordlessLogin(true)
+                }}
+              >
+                {t('Do you want to login without password?')}
+              </a>
+            </div>
+          </>
         )}
         {passwordlessLogin && showCodeInput && (
           <>
@@ -96,15 +137,17 @@ export function Login() {
               onChange={(ev) => setLoginCode(ev.target.value)}
             ></input>
             <div className="password-info">
-              <div>{t('We sent the login code')}</div>
-              <a href="#" onClick={() => setPasswordlessLogin(false)}>
+              <div>
+                <b>{t('Login code sent, please check your e-mail')}.</b>
+              </div>
+              <div className="a" onClick={() => setPasswordlessLogin(false)}>
                 {t('Click here, if you want to use your password instead')}
-              </a>
+              </div>
             </div>
           </>
         )}
         <div className="checkbox">
-          <label htmlFor="remember-login">{t('Remember login')}</label>
+          <label htmlFor="remember-login">{t('Remember log in')}</label>
           <input
             type="checkbox"
             id="remember-login"
@@ -113,7 +156,11 @@ export function Login() {
           ></input>
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit">
+          {passwordlessLogin && !showCodeInput
+            ? t('Send login code via E-Mail')
+            : t('Log in')}
+        </button>
       </fieldset>
     </form>
   )

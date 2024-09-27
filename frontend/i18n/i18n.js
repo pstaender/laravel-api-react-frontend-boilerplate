@@ -1,17 +1,15 @@
 import {
   setTranslations,
   setLocale,
-//   setHandleMissingTranslation,
+  //   setHandleMissingTranslation,
 } from 'react-i18nify'
-import { en } from './en.json'
+import * as translations from './translations.json'
 
-const debug = import.meta.env.DEV || window?.location?.host?.startsWith('localhost')
+
+const debug =
+  import.meta.env.DEV || window?.location?.host?.startsWith('localhost')
 
 const lang = (navigator ? navigator.language : 'en').replace(/(-.+?)$/, '')
-
-export const translations = {
-  en,
-}
 
 if (debug) {
   console.debug(`Selected language (i18nify): ${lang}`)
