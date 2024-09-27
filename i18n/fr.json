@@ -1,5 +1,15 @@
 {
   "fr": {
+    "Two-factor-auth is enabled": "L'authentification à deux facteurs est activée",
+    "Two-factor-auth could not be confirmed. Please check for correct code": "L'authentification à deux facteurs n'a pas pu être confirmée. Veuillez vérifier si le code est correct",
+    "Two-factor-auth could not be confirmed_ Please check for correct code": "L'authentification à deux facteurs n'a pas pu être confirmée. Veuillez vérifier si le code est correct",
+    "Setup two-factor-auth": "Configurer l'authentification à deux facteurs",
+    "Please scan the QR code below and keep it in your password manager": "Veuillez scanner le code QR ci-dessous et le conserver dans votre gestionnaire de mots de passe.",
+    "Please store the recovery code below": "Veuillez enregistrer le code de récupération ci-dessous",
+    "Please enter the code from your authenticator app": "Veuillez saisir le code de votre application d'authentification",
+    "6-digit-code": "Code à 6 chiffres",
+    "Confirm and enable": "Confirmer et activer",
+    "Enable two-factor-auth": "Activer l'authentification à deux facteurs",
     "E-mail has already been signed up": "L'e-mail a déjà été enregistré",
     "Your password must have at least $chars characters": "Votre mot de passe doit comporter au moins $chars caractères",
     "Passwords do not match": "Les mots de passe ne correspondent pas",
@@ -21,11 +31,14 @@
     "Log in": "Se connecter",
     "Welcome %{name}!": "Bienvenue %{name}!",
     "Welcome :name!": "Bienvenue :name!",
+    "Setup two-factor-authentication": "Configuration de l'authentification à deux facteurs",
+    "Log out": "Déconnexion",
     "React is running": "React est en cours d'exécution",
     "The provided password does not match your current password.": "Le mot de passe fourni ne correspond pas à votre mot de passe actuel.",
     "The provided password does not match your current password_": "Le mot de passe fourni ne correspond pas à votre mot de passe actuel.",
     "Your login code:": "Votre code d'accès :",
     "The code is valid for :minutes minutes": "Le code est valable pour :minutes minutes",
+    "The code is valid for %{minutes} minutes": "Le code est valable pour %{minutes} minutes",
     "If you did not request a login, no further action is required": "Si vous n'avez pas demandé d'ouverture de session, aucune autre action n'est requise.",
     "The password did not match": "Le mot de passe ne correspond pas",
     "E-Mail already exists": "Le courriel existe déjà",
@@ -39,6 +52,11 @@
     "Code or e-mail is invalid": "Le code ou l'e-mail n'est pas valide",
     "Service is running. Grap a tea and relax.": "Le service est en cours. Prenez un thé et détendez-vous.",
     "Service is running_ Grap a tea and relax_": "Le service est en cours. Prenez un thé et détendez-vous.",
-    "The code is valid for %{minutes} minutes": "Le code est valable pour %{minutes} minutes"
+    "Please confirm your two factor authentication": "Veuillez confirmer votre authentification à deux facteurs",
+    "2fa enabled. Please use the code from your authenticator app": "2fa activé. Veuillez utiliser le code de votre application d'authentification",
+    "2fa enabled_ Please use the code from your authenticator app": "2fa activé. Veuillez utiliser le code de votre application d'authentification",
+    "Your 2FA OTP code": "Votre code OTP 2FA",
+    "Please provide your 2FA code": "Veuillez indiquer votre code 2FA",
+    "The provided 2FA code is incorrect": "Le code 2FA fourni est incorrect"
   }
 }

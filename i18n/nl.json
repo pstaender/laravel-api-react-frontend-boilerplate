@@ -1,5 +1,15 @@
 {
   "nl": {
+    "Two-factor-auth is enabled": "Twee-factor-auth is ingeschakeld",
+    "Two-factor-auth could not be confirmed. Please check for correct code": "Twee-factor-auth kon niet worden bevestigd. Controleer voor de juiste code",
+    "Two-factor-auth could not be confirmed_ Please check for correct code": "Twee-factor-auth kon niet worden bevestigd. Controleer voor de juiste code",
+    "Setup two-factor-auth": "Twee-factor-auth instellen",
+    "Please scan the QR code below and keep it in your password manager": "Scan de QR-code hieronder en bewaar deze in je wachtwoordmanager",
+    "Please store the recovery code below": "Sla de herstelcode hieronder op",
+    "Please enter the code from your authenticator app": "Voer de code van uw authenticator-app in",
+    "6-digit-code": "6-cijferige code",
+    "Confirm and enable": "Bevestigen en inschakelen",
+    "Enable two-factor-auth": "Twee-factor-auth inschakelen",
     "E-mail has already been signed up": "E-mail is al aangemeld",
     "Your password must have at least $chars characters": "Uw wachtwoord moet minstens $chars tekens bevatten",
     "Passwords do not match": "Wachtwoorden komen niet overeen",
@@ -21,11 +31,14 @@
     "Log in": "Inloggen",
     "Welcome %{name}!": "Welkom %{name}!",
     "Welcome :name!": "Welkom :name!",
+    "Setup two-factor-authentication": "Twee-factor-authenticatie instellen",
+    "Log out": "Afmelden",
     "React is running": "React wordt uitgevoerd",
     "The provided password does not match your current password.": "Het opgegeven wachtwoord komt niet overeen met uw huidige wachtwoord.",
     "The provided password does not match your current password_": "Het opgegeven wachtwoord komt niet overeen met uw huidige wachtwoord.",
     "Your login code:": "Uw inlogcode:",
     "The code is valid for :minutes minutes": "De code is geldig voor :minutes minuten",
+    "The code is valid for %{minutes} minutes": "De code is geldig voor %{minutes} minuten",
     "If you did not request a login, no further action is required": "Als u geen login heeft aangevraagd, hoeft u geen verdere actie te ondernemen.",
     "The password did not match": "Het wachtwoord kwam niet overeen",
     "E-Mail already exists": "E-mail bestaat al",
@@ -39,6 +52,11 @@
     "Code or e-mail is invalid": "Code of e-mail is ongeldig",
     "Service is running. Grap a tea and relax.": "De service loopt. Pak een thee en ontspan.",
     "Service is running_ Grap a tea and relax_": "De service loopt. Pak een thee en ontspan.",
-    "The code is valid for %{minutes} minutes": "De code is geldig voor %{minutes} minuten"
+    "Please confirm your two factor authentication": "Bevestig uw verificatie met twee factoren",
+    "2fa enabled. Please use the code from your authenticator app": "2fa ingeschakeld. Gebruik de code van uw authenticator-app",
+    "2fa enabled_ Please use the code from your authenticator app": "2fa ingeschakeld. Gebruik de code van uw authenticator-app",
+    "Your 2FA OTP code": "Uw 2FA OTP-code",
+    "Please provide your 2FA code": "Geef uw 2FA code op",
+    "The provided 2FA code is incorrect": "De opgegeven 2FA-code is onjuist"
   }
 }

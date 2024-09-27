@@ -14,6 +14,8 @@ export function Login() {
   const [passwordlessLogin, setPasswordlessLogin] = useState(false)
   const [rememberLogin, setRememberLogin] = useState(true)
   const [showCodeInput, setShowCodeInput] = useState(false)
+  const [showTwoFactorOTPInput, setShowTwoFactorOTPInput] = useState(false)
+  const [twoFactorOTP, setTwoFactorOTP] = useState(null)
   const [, setUser] = useAtom(currentUserState)
   const navigate = useNavigate()
 
@@ -30,7 +32,17 @@ export function Login() {
         }
         token = await api.passwordlessLoginReceiveToken(email, loginCode)
       } else {
-        token = await api.receiveAuthToken(email, password)
+        token = await api.receiveAuthToken(email, password, {
+          otp: twoFactorOTP,
+        })
+        if (token['2fa_otp_required_for_login']) {
+          alert(
+            token['2fa_login_message'] ||
+              t('2fa enabled. Please use the code from your authenticator app')
+          )
+          setShowTwoFactorOTPInput(true)
+          return
+        }
       }
 
       if (token) {
@@ -39,7 +51,10 @@ export function Login() {
           rememberLogin ? localStorage : sessionStorage
         )
         const user = await api.user()
-        setUser({ email: user.email })
+        setUser({
+          email: user.email,
+          two_factor_confirmed_at: user.two_factor_confirmed_at,
+        })
         navigate('/home')
       }
     } catch (e) {
@@ -70,7 +85,20 @@ export function Login() {
           onChange={(ev) => setEmail(ev.target.value)}
           autoComplete="username"
         ></input>
-        {!passwordlessLogin && (
+        {showTwoFactorOTPInput && (
+          <>
+            <input
+              type="password"
+              maxLength={6}
+              inputMode="numeric"
+              required={true}
+              placeholder={t('Your 2FA OTP code')}
+              autoComplete="one-time-code"
+              onChange={(ev) => setTwoFactorOTP(ev.target.value)}
+            ></input>
+          </>
+        )}
+        {!showTwoFactorOTPInput && !passwordlessLogin && (
           <>
             <input
               type="password"

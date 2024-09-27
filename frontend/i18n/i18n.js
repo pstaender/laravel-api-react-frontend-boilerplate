@@ -5,6 +5,7 @@ import {
 } from 'react-i18nify'
 import * as translations from './translations.json'
 
+
 const debug =
   import.meta.env.DEV || window?.location?.host?.startsWith('localhost')
 

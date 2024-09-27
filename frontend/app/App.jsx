@@ -5,7 +5,6 @@ import {
   Route,
   Routes,
   Navigate,
-  HashRouter,
   useLocation,
   redirect,
 } from 'react-router-dom'
@@ -49,7 +48,7 @@ export function App() {
           throw e
         }
       }
-      setUser({ email: user.email })
+      setUser({ email: user.email, two_factor_confirmed_at: user.two_factor_confirmed_at })
       console.debug(`Logged in as ${user.email}`)
     }
 

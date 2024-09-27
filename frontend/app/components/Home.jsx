@@ -8,7 +8,7 @@ export function Home() {
     <center>
       <h1>{t('Welcome %{name}!', { name: user.email })}</h1>
       <br></br>
-      {!user.two_factor_confirmed_at && (
+        {user.two_factor_confirmed_at ? '' : (
         <p>
           <Link to="/setup-2fa">{t('Setup two-factor-authentication')}</Link>
         </p>

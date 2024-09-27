@@ -18,6 +18,7 @@ https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/14057
   * github actions for php and js tests
   * unified translations for react-frontend and laravel
   * optional: passwordless login otps via e-mail
+  * optional: 2fa via laravel fortify
 
 ## Folder Structure
 
@@ -89,6 +90,17 @@ $ npm run i18n
 You can define custom values to be used for deepl translation in `/i18/yaml/$lang.yml`. You can also define custom translations in `/i18/yaml/custom_translations.yml` which will be applied to the end of the process and will be used as final value (helpful if deepl generates inaccurate translations).
 
 Use the i18nify placeholder is frontend `Hello, %{name}!` and the laravel-placeholder `Hello, :name!` in the api.
+
+## Two-Factor-Authentication
+
+There are two 2fa possible:
+
+  * send a OTP via e-mail (the password is not needed in this case)
+  * use user password and 2fa OTP via authenticator app (recommended)
+
+Please do not enable both at the same time, the login process is not designed for this. If you want to use both, you have to adjust the login process.
+
+To disable OTP 2fa (it's enabled by default) remove `TwoFactorAuthenticatable` from `User`-model.
 
 ## Mailer
 

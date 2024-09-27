@@ -1,5 +1,15 @@
 {
   "en": {
+    "Two-factor-auth is enabled": "Two-factor-auth is enabled",
+    "Two-factor-auth could not be confirmed. Please check for correct code": "Two-factor-auth could not be confirmed. Please check for correct code",
+    "Two-factor-auth could not be confirmed_ Please check for correct code": "Two-factor-auth could not be confirmed. Please check for correct code",
+    "Setup two-factor-auth": "Setup two-factor-auth",
+    "Please scan the QR code below and keep it in your password manager": "Please scan the QR code below and keep it in your password manager",
+    "Please store the recovery code below": "Please store the recovery code below",
+    "Please enter the code from your authenticator app": "Please enter the code from your authenticator app",
+    "6-digit-code": "6-digit-code",
+    "Confirm and enable": "Confirm and enable",
+    "Enable two-factor-auth": "Enable two-factor-auth",
     "E-mail has already been signed up": "E-mail has already been signed up",
     "Your password must have at least $chars characters": "Your password must have at least $chars characters",
     "Passwords do not match": "Passwords do not match",
@@ -8,9 +18,12 @@
     "Password": "Password",
     "Confirm password": "Confirm password",
     "Sign up": "Sign up",
+    "2fa enabled. Please use the code from your authenticator app": "2fa enabled. Please use the code from your authenticator app",
+    "2fa enabled_ Please use the code from your authenticator app": "2fa enabled. Please use the code from your authenticator app",
     "Could not login": "Could not login",
     "Could not login. Wrong Password?": "Could not login. Wrong Password?",
     "Could not login_ Wrong Password?": "Could not login. Wrong Password?",
+    "Your 2FA OTP code": "Your 2FA OTP code",
     "Do you want to login without password?": "Do you want to login without password?",
     "Your login code": "Your login code",
     "If you have signed up correctly, you have now received a login code which you can place here": "If you have signed up correctly, you have now received a login code which you can place here",
@@ -21,6 +34,8 @@
     "Log in": "Log in",
     "Welcome %{name}!": "Welcome %{name}!",
     "Welcome :name!": "Welcome :name!",
+    "Setup two-factor-authentication": "Setup two-factor-authentication",
+    "Log out": "Log out",
     "React is running": "React is running",
     "The provided password does not match your current password.": "The provided password does not match your current password.",
     "The provided password does not match your current password_": "The provided password does not match your current password.",
@@ -35,10 +50,13 @@
     "Account created_ Please confirm your e-mail before logging in": "Account created. Please confirm your e-mail before logging in",
     "The provided credentials are incorrect": "The provided credentials are incorrect",
     "Please confirm your e-mail-address first": "Please confirm your e-mail-address first",
+    "Please provide your 2FA code": "Please provide your 2FA code",
+    "The provided 2FA code is incorrect": "The provided 2FA code is incorrect",
     "If you have signed up correctly, you have now received a login code": "If you have signed up correctly, you have now received a login code",
     "Too many login attempts": "Too many login attempts",
     "Code or e-mail is invalid": "Code or E-Mail is invalid",
     "Service is running. Grap a tea and relax.": "Service is running. Grap a tea and relax.",
-    "Service is running_ Grap a tea and relax_": "Service is running. Grap a tea and relax."
+    "Service is running_ Grap a tea and relax_": "Service is running. Grap a tea and relax.",
+    "Please confirm your two factor authentication": "Please confirm your two factor authentication"
   }
 }
