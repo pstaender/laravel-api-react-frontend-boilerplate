@@ -18,9 +18,12 @@
     "Password": "Wachtwoord",
     "Confirm password": "Wachtwoord bevestigen",
     "Sign up": "Aanmelden",
+    "2fa enabled. Please use the code from your authenticator app": "2fa ingeschakeld. Gebruik de code van uw authenticator-app",
+    "2fa enabled_ Please use the code from your authenticator app": "2fa ingeschakeld. Gebruik de code van uw authenticator-app",
     "Could not login": "Kan niet inloggen",
     "Could not login. Wrong Password?": "Kan niet inloggen. Verkeerd wachtwoord?",
     "Could not login_ Wrong Password?": "Kan niet inloggen. Verkeerd wachtwoord?",
+    "Your 2FA OTP code": "Uw 2FA OTP-code",
     "Do you want to login without password?": "Wilt u inloggen zonder wachtwoord?",
     "Your login code": "Uw inlogcode",
     "If you have signed up correctly, you have now received a login code which you can place here": "Als je je correct hebt aangemeld, heb je nu een inlogcode ontvangen die je hier kunt plaatsen",
@@ -47,16 +50,13 @@
     "Account created_ Please confirm your e-mail before logging in": "Account aangemaakt. Bevestig uw e-mail voordat u inlogt",
     "The provided credentials are incorrect": "De opgegeven referenties zijn onjuist",
     "Please confirm your e-mail-address first": "Bevestig eerst je e-mailadres",
+    "Please provide your 2FA code": "Geef uw 2FA code op",
+    "The provided 2FA code is incorrect": "De opgegeven 2FA-code is onjuist",
     "If you have signed up correctly, you have now received a login code": "Als je je correct hebt aangemeld, heb je nu een inlogcode ontvangen",
     "Too many login attempts": "Te veel aanmeldpogingen",
     "Code or e-mail is invalid": "Code of e-mail is ongeldig",
     "Service is running. Grap a tea and relax.": "De service loopt. Pak een thee en ontspan.",
     "Service is running_ Grap a tea and relax_": "De service loopt. Pak een thee en ontspan.",
-    "Please confirm your two factor authentication": "Bevestig uw verificatie met twee factoren",
-    "2fa enabled. Please use the code from your authenticator app": "2fa ingeschakeld. Gebruik de code van uw authenticator-app",
-    "2fa enabled_ Please use the code from your authenticator app": "2fa ingeschakeld. Gebruik de code van uw authenticator-app",
-    "Your 2FA OTP code": "Uw 2FA OTP-code",
-    "Please provide your 2FA code": "Geef uw 2FA code op",
-    "The provided 2FA code is incorrect": "De opgegeven 2FA-code is onjuist"
+    "Please confirm your two factor authentication": "Bevestig uw verificatie met twee factoren"
   }
 }

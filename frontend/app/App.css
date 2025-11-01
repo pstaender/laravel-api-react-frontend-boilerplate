@@ -1,0 +1,51 @@
+body {
+  place-content: center;
+  accent-color: #f3e050;
+}
+
+#app {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto;
+
+  @media (min-width: 1280px) {
+    text-align: inherit;
+    min-height: min(100vh, 40rem);
+    box-shadow:
+      rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+      rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    min-width: 40rem;
+    padding: 2rem;
+  }
+  form {
+    min-width: min(20rem, 100%);
+    margin: 0 auto;
+  }
+}
+
+.logo {
+  background: url('../../logo.svg') no-repeat center;
+  background-size: contain;
+  width: 6rem;
+  height: 6rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+#app-loading-indicator {
+  height: 2rem;
+  width: 2rem;
+  position: fixed;
+  top: calc(50vh - 1rem);
+  left: calc(50vw - 1rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  #app-loading-indicator {
+    filter: invert(1);
+  }
+}

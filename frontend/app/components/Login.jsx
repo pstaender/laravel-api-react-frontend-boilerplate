@@ -1,4 +1,4 @@
-import './Login.scss'
+import './Login.css'
 
 import { useState } from 'react'
 import { currentUserState } from '../states/currentUserState'

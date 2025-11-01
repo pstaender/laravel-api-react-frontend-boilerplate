@@ -18,9 +18,12 @@
     "Password": "Password",
     "Confirm password": "Confermare la password",
     "Sign up": "Iscriviti",
+    "2fa enabled. Please use the code from your authenticator app": "2fa abilitato. Utilizzare il codice dell'app Authenticator",
+    "2fa enabled_ Please use the code from your authenticator app": "2fa abilitato. Utilizzare il codice dell'app Authenticator",
     "Could not login": "Impossibile effettuare il login",
     "Could not login. Wrong Password?": "Impossibile accedere. Password sbagliata?",
     "Could not login_ Wrong Password?": "Impossibile accedere. Password sbagliata?",
+    "Your 2FA OTP code": "Il codice OTP 2FA",
     "Do you want to login without password?": "Volete accedere senza password?",
     "Your login code": "Il codice di accesso",
     "If you have signed up correctly, you have now received a login code which you can place here": "Se vi siete iscritti correttamente, avete ricevuto un codice di accesso che potete inserire qui",
@@ -47,16 +50,13 @@
     "Account created_ Please confirm your e-mail before logging in": "Account creato. Confermare l'e-mail prima di accedere",
     "The provided credentials are incorrect": "Le credenziali fornite non sono corrette",
     "Please confirm your e-mail-address first": "Confermate prima il vostro indirizzo e-mail",
+    "Please provide your 2FA code": "Indicare il codice 2FA",
+    "The provided 2FA code is incorrect": "Il codice 2FA fornito non è corretto",
     "If you have signed up correctly, you have now received a login code": "Se vi siete iscritti correttamente, avete ricevuto un codice di accesso.",
     "Too many login attempts": "Troppi tentativi di accesso",
     "Code or e-mail is invalid": "Il codice o l'e-mail non sono validi",
     "Service is running. Grap a tea and relax.": "Il servizio è in funzione. Prendete un tè e rilassatevi.",
     "Service is running_ Grap a tea and relax_": "Il servizio è in funzione. Prendete un tè e rilassatevi.",
-    "Please confirm your two factor authentication": "Confermare l'autenticazione a due fattori",
-    "2fa enabled. Please use the code from your authenticator app": "2fa abilitato. Utilizzare il codice dell'app Authenticator",
-    "2fa enabled_ Please use the code from your authenticator app": "2fa abilitato. Utilizzare il codice dell'app Authenticator",
-    "Your 2FA OTP code": "Il codice OTP 2FA",
-    "Please provide your 2FA code": "Indicare il codice 2FA",
-    "The provided 2FA code is incorrect": "Il codice 2FA fornito non è corretto"
+    "Please confirm your two factor authentication": "Confermare l'autenticazione a due fattori"
   }
 }

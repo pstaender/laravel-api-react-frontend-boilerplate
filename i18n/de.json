@@ -18,9 +18,12 @@
     "Password": "Passwort",
     "Confirm password": "Bestätigen Sie das Passwort",
     "Sign up": "Registrieren Sie sich",
+    "2fa enabled. Please use the code from your authenticator app": "2fa aktiviert. Bitte verwenden Sie den Code aus Ihrer Authenticator-App",
+    "2fa enabled_ Please use the code from your authenticator app": "2fa aktiviert. Bitte verwenden Sie den Code aus Ihrer Authenticator-App",
     "Could not login": "Keine Anmeldung möglich",
     "Could not login. Wrong Password?": "Sie konnten sich nicht anmelden. Falsches Passwort?",
     "Could not login_ Wrong Password?": "Sie konnten sich nicht anmelden. Falsches Passwort?",
+    "Your 2FA OTP code": "Ihr 2FA OTP-Code",
     "Do you want to login without password?": "Möchten Sie sich ohne Passwort anmelden?",
     "Your login code": "Ihr Anmeldecode",
     "If you have signed up correctly, you have now received a login code which you can place here": "Wenn Sie sich korrekt angemeldet haben, haben Sie jetzt einen Anmeldecode erhalten, den Sie hier eingeben können",
@@ -47,16 +50,13 @@
     "Account created_ Please confirm your e-mail before logging in": "Konto erstellt. Bitte bestätigen Sie Ihre E-Mail, bevor Sie sich anmelden.",
     "The provided credentials are incorrect": "Die angegebenen Anmeldeinformationen sind falsch",
     "Please confirm your e-mail-address first": "Bitte bestätigen Sie zunächst Ihre E-Mail Adresse",
+    "Please provide your 2FA code": "Bitte geben Sie Ihren 2FA-Code an",
+    "The provided 2FA code is incorrect": "Der angegebene 2FA-Code ist falsch",
     "If you have signed up correctly, you have now received a login code": "Wenn Sie sich korrekt angemeldet haben, haben Sie jetzt einen Anmeldecode erhalten",
     "Too many login attempts": "Zu viele Anmeldeversuche",
     "Code or e-mail is invalid": "Code oder E-Mail ist ungültig",
     "Service is running. Grap a tea and relax.": "Der Service läuft. Nehmen Sie einen Tee und entspannen Sie sich.",
     "Service is running_ Grap a tea and relax_": "Der Service läuft. Nehmen Sie einen Tee und entspannen Sie sich.",
-    "Please confirm your two factor authentication": "Bitte bestätigen Sie Ihre Zwei-Faktor-Authentifizierung",
-    "2fa enabled. Please use the code from your authenticator app": "2fa aktiviert. Bitte verwenden Sie den Code aus Ihrer Authenticator-App",
-    "2fa enabled_ Please use the code from your authenticator app": "2fa aktiviert. Bitte verwenden Sie den Code aus Ihrer Authenticator-App",
-    "Your 2FA OTP code": "Ihr 2FA OTP-Code",
-    "Please provide your 2FA code": "Bitte geben Sie Ihren 2FA-Code an",
-    "The provided 2FA code is incorrect": "Der angegebene 2FA-Code ist falsch"
+    "Please confirm your two factor authentication": "Bitte bestätigen Sie Ihre Zwei-Faktor-Authentifizierung"
   }
 }

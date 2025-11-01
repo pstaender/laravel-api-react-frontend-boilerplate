@@ -1,0 +1,12 @@
+@import "./app/normalize.css";
+@import "./fonts/inter/inter.css";
+@import "./app/variables.css";
+
+body {
+    padding: 1rem;
+    font-size: 16px;
+}
+
+html, body {
+    height: 100%;
+}
