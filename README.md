@@ -1,4 +1,4 @@
-# Opinionated boilerplate for laravel-powered-api with react SPA frontend
+# Opinionated boilerplate for laravel-powered-api with react SPA frontend 🚀
 
 [![status](https://github.com/pstaender/laravel-api-react-frontend-boilerplate/actions/workflows/specs.yml/badge.svg)](https://github.com/pstaender/laravel-api-react-frontend-boilerplate/actions)
 
@@ -6,14 +6,14 @@ https://github.com/pstaender/laravel-api-react-frontend-boilerplate/assets/14057
 
 ## Requirements
 
-  * PHP 8.1+
-  * NodeJS 20+
+  * PHP 8.3+
+  * NodeJS 22+
 
 ## Features (tools, libraries, frameworks and concepts)
 
-  * Laravel v11
+  * Laravel v12
   * React (using react-route, recoil, react-i18next and react-i18nify)
-  * VitejS (bundling js(x), scss etc) with HMR for development
+  * VitejS (bundling js/jsx/ts) with HMR for development
   * jest for JS tests
   * github actions for php and js tests
   * unified translations for react-frontend and laravel
@@ -132,11 +132,11 @@ MIT License
 
 ## Disclaimer
 
-This repo is (just) a boilerplate for creating projects with a laravel-driven api and a JS SPA as frontend.
+This repo is an opinionated boilerplate for creating projects with a laravel-driven api and a JS SPA as frontend.
 
 Please check carefully all security related settings (CORS, database, mail etc) before deploying on production.
 
-Please also ensure that you always run on the latest possible PHP `composer update` and NodeJS `npm update` modules :)
+Please ensure that you always run on the latest possible php and js modules 🤓
 
 # TODOs
 
