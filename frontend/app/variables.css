@@ -9,3 +9,6 @@
         font-family: var(--font-sansSerif);
     }
 }
+:root {
+  --color-primary: #a84efe;
+}

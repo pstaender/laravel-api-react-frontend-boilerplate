@@ -1,6 +1,6 @@
 body {
   place-content: center;
-  accent-color: #f3e050;
+  accent-color: var(--color-primary);
 }
 
 #app {
@@ -28,20 +28,12 @@ body {
 }
 
 .logo {
-  background: url('../../logo.svg') no-repeat center;
+  background: url('assets/logo.svg') no-repeat center;
   background-size: contain;
   width: 6rem;
   height: 6rem;
   width: 100%;
   margin-bottom: 2rem;
-}
-
-#app-loading-indicator {
-  height: 2rem;
-  width: 2rem;
-  position: fixed;
-  top: calc(50vh - 1rem);
-  left: calc(50vw - 1rem);
 }
 
 @media (prefers-color-scheme: dark) {
