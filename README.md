@@ -40,7 +40,7 @@ $ cd api
 $ composer install
 $ php artisan key:generate
 $ php artisan migrate
-$ cd .. # back to root
+$ cd .. # back to project root
 $ npm run i18n:setup
 ```
 
@@ -54,7 +54,7 @@ Change for your needs:
 
   * routes in `api/routes/web.php`, `api/routes/api.php` and `api/bootstrap/app.php`
   * e-mail-templates `api/resources/views/emails`
-  * change logo(s) `/logo.svg` and `/logo.webp`
+  * change logo(s) `/frontend/assets/logo.svg` and `/frontend/assets/logo.webp`
   * Set your frontend domain url `FRONTEND_URL` in the laravel `.env`-files
 
 ### Optional: Queue and Cache via database
