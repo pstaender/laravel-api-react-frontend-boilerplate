@@ -69,7 +69,10 @@ Route::post('/sanctum/token', function (Request $request) {
         'otp' => 'string|nullable',
     ]);
     $user = validateEmailAndPassword($request->email, $request->password);
-    if (method_exists($user, 'hasEnabledTwoFactorAuthentication') && $user->hasEnabledTwoFactorAuthentication()) {
+    if (
+        method_exists($user, 'hasEnabledTwoFactorAuthentication') &&
+        $user->hasEnabledTwoFactorAuthentication()
+    ) {
         if (empty($request->otp)) {
             return [
                 '2fa_otp_required_for_login' => true,
@@ -78,7 +81,7 @@ Route::post('/sanctum/token', function (Request $request) {
         }
         // check for valid 2fa code
         $tfa = App::make(
-            'Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider'
+            'Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider',
         );
         $code = $request->input('otp');
         if (!$tfa->verify(decrypt($user->two_factor_secret), $code)) {
@@ -87,7 +90,7 @@ Route::post('/sanctum/token', function (Request $request) {
                 [
                     'message' => __('The provided 2FA code is incorrect'),
                 ],
-                422
+                422,
             );
         }
     }
@@ -107,21 +110,21 @@ Route::post('/passwordless-login', function (Request $request) {
         $user->hasVerifiedEmail() &&
         $user->validLoginCodes()->count() < 10 &&
         LoginCodeAttempt::where(['user_id' => $user->id])
-            ->whereTime('created_at', '>=', Carbon::now()->subMinutes(5))
+            ->where('created_at', '>=', Carbon::now()->subMinutes(5))
             ->count() < 10
     ) {
-        (new LoginCodeAttempt(['user_id' => $user->id]))->save();
+        new LoginCodeAttempt(['user_id' => $user->id])->save();
         LoginCode::createLoginCodeAndNotifyUser(
             user: $user,
             device_name: $request->device_name,
             validInMinutes: 5,
             codeLength: 4,
-            ip: $request->ip()
+            ip: $request->ip(),
         );
     }
     return [
         'message' => __(
-            'If you have signed up correctly, you have now received a login code'
+            'If you have signed up correctly, you have now received a login code',
         ),
     ];
 });
@@ -142,13 +145,13 @@ Route::post('/passwordless-login/token', function (Request $request) {
 
         $loginCode = $validCodes->first();
 
-        (new LoginCodeAttempt([
+        new LoginCodeAttempt([
             'user_id' => $user->id,
-        ]))->save();
+        ])->save();
 
         if (
             LoginCodeAttempt::where(['user_id' => $user->id])
-                ->whereTime('created_at', '>=', Carbon::now()->subMinutes(5))
+                ->where('created_at', '>=', Carbon::now()->subMinutes(5))
                 ->count() >= 10
         ) {
             throw ValidationException::withMessages([
@@ -173,7 +176,7 @@ Route::post('/passwordless-login/token', function (Request $request) {
 Route::get('/verify-email/{id}/{hash}', function (
     $id,
     $hash,
-    Request $request
+    Request $request,
 ) {
     $user = User::findOrFail($id);
     $email = $user->getEmailForVerification();
@@ -181,7 +184,7 @@ Route::get('/verify-email/{id}/{hash}', function (
     $createInitialSessionForLoginAndRedirectToFrontend = function (
         $user,
         Request $request,
-        bool $removeIpAndDeviceFromUserSignup = false
+        bool $removeIpAndDeviceFromUserSignup = false,
     ) {
         $userAgent =
             $request->device_name ?: ($request->userAgent() ?: 'unknown');
@@ -194,14 +197,14 @@ Route::get('/verify-email/{id}/{hash}', function (
         if ($signupIp !== $request->ip() || $signupDevice !== $userAgent) {
             return redirect(
                 env('FRONTEND_URL', '') . '/?emailConfirmed=✓',
-                307
+                307,
             );
         }
         return redirect(
             env('FRONTEND_URL', '') .
                 '/?authToken=' .
                 $user->createToken($userAgent)->plainTextToken,
-            307
+            307,
         );
     };
 
@@ -212,14 +215,14 @@ Route::get('/verify-email/{id}/{hash}', function (
         return $createInitialSessionForLoginAndRedirectToFrontend(
             user: $user,
             request: $request,
-            removeIpAndDeviceFromUserSignup: true
+            removeIpAndDeviceFromUserSignup: true,
         );
         // return redirect('/?email_confirmed=successful', 307);
     }
 
     return redirect(
         env('REDIRECT_TO_IF_NOT_AUTHENTICATE', '/?from=invalid_email_confirm'),
-        307
+        307,
     );
 })
     ->middleware(['signed'])
@@ -253,7 +256,7 @@ Route::post('/reset-password', function (Request $request) {
             $user->save();
 
             event(new PasswordReset($user));
-        }
+        },
     );
 
     return $status === Password::PASSWORD_RESET
